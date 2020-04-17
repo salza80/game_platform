@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_223202) do
+ActiveRecord::Schema.define(version: 2020_04_16_232248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,4 +41,30 @@ ActiveRecord::Schema.define(version: 2020_04_16_223202) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "genders", force: :cascade do |t|
+    t.string "char_desc", limit: 1
+    t.string "desc"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "language_levels", force: :cascade do |t|
+    t.string "short_desc", limit: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "nouns", force: :cascade do |t|
+    t.string "word"
+    t.string "english"
+    t.bigint "gender_id"
+    t.bigint "language_level_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["gender_id"], name: "index_nouns_on_gender_id"
+    t.index ["language_level_id"], name: "index_nouns_on_language_level_id"
+  end
+
+  add_foreign_key "nouns", "genders"
+  add_foreign_key "nouns", "language_levels"
 end
