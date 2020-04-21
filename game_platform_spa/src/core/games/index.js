@@ -1,12 +1,23 @@
 import React from 'react';
+import {
+  Link
+} from "react-router-dom";
+import './games.scss'
 
-function Games () {
-return (
-  <div>
-    <h1 className="h2">GAMES</h1>
-    GAMES GO HERE
-  </div>
-  )
+class Games extends React.Component {
+  render() {
+    return (
+      <ul className="nav flex-column">
+        <li className="nav-item">
+          <Link className="nav-link" to='/games/falling-text'>
+            <span data-feather="home"></span>
+            Falling Text
+          </Link>
+        </li>
+      </ul>
+    )
+  }
 }
 
 export default Games
+

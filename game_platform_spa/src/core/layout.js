@@ -1,6 +1,7 @@
 import React from 'react';
 import Games from './games'
 import About from './about'
+import FallingText from './games/fallingText'
 import './layout.scss'
 import {
   Switch,
@@ -21,36 +22,22 @@ return (
           </li>
         </ul>
       </nav>
-      <div className="container-fluid">
-        <div className="row">
-          <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-            <div className="sidebar-sticky">
-              <ul className="nav flex-column">
-                <li className="nav-item">
-                  <Link className="nav-link active" to='/games'>
-                    <span data-feather="home"></span>
-                    Play Games <span className="sr-only">(current)</span>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to='/about'><span data-feather="file"></span>
-                    About
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-           <Switch>
+      <div className="container-fluid main-content">
+          <Switch>
               <Route exact path="/about">
                 <About />
               </Route>
-              <Route path="/games">
+              <Route exact path="/">
                 <Games />
               </Route>
+              <Route exact path="/games">
+                <Games />
+              </Route>
+              <Route path="/games/falling-text">
+                <FallingText />
+              </Route>
+              
           </Switch>
-          </main>
-        </div>
       </div>
     </React.Fragment>
   )
