@@ -4,16 +4,25 @@ import './index.css';
 import './custom-bootstrap.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 import {
   BrowserRouter as Router
 } from "react-router-dom";
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GRAPHQL,
+});
+
+console.log(process.env.REACT_APP_GRAPHQL)
+
 ReactDOM.render(
   <React.StrictMode>
-  	<Router>
-    	<App />
-    </Router>
+  	<ApolloProvider client={client}>
+	  	<Router>
+	    	<App />
+	    </Router>
+	</ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

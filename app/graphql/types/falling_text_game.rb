@@ -1,5 +1,5 @@
 module Types
-  class GameOne < Types::BaseObject
+  class FallingTextGame < Types::BaseObject
     field :question, String, null: false
     field :answer, String, null: false
     field :tip, String, null: false
