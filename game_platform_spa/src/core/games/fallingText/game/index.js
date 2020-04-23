@@ -28,6 +28,7 @@ function Game() {
   const [score, setScore] = useState(0);
   let { topicId, levelId } = useParams();
   const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicId: topicId, levelId: levelId } });
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
@@ -40,12 +41,10 @@ function Game() {
 
   const getGameCallback = (handleShow) => (
     (data) => {
-      console.log(data)
       handleShow(data)
     }
   )
 
-  console.log(data)
   window.gameConfig = {
     start_text: `${topicId} Level: ${levelId}`,
     words: data.fallingTextGame.words,
