@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_232248) do
+ActiveRecord::Schema.define(version: 2020_04_23_133907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 2020_04_16_232248) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "games", force: :cascade do |t|
+    t.string "game_code"
+    t.string "score_code_pattern"
+    t.string "game_title"
+    t.string "game_desc"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "genders", force: :cascade do |t|
     t.string "char_desc", limit: 1
     t.string "desc"
@@ -65,6 +74,17 @@ ActiveRecord::Schema.define(version: 2020_04_16_232248) do
     t.index ["language_level_id"], name: "index_nouns_on_language_level_id"
   end
 
+  create_table "scores", force: :cascade do |t|
+    t.string "score_code"
+    t.string "user_name"
+    t.integer "score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_scores_on_game_id"
+  end
+
   add_foreign_key "nouns", "genders"
   add_foreign_key "nouns", "language_levels"
+  add_foreign_key "scores", "games"
 end

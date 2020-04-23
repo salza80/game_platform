@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './game.scss';
 import {
   Switch,
@@ -8,35 +8,51 @@ import {
 } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import CreateScorePopup from "../../../../components/createScorePopup"
 
 const GAME_QUERY = gql`
-    query FallingTextGame($topicId: String!, $levelId: String! ) {
-      fallingTextGame(topicId: $topicId, levelId: $levelId) {
+  query FallingTextGame($topicId: String!, $levelId: String! ) {
+    fallingTextGame(topicId: $topicId, levelId: $levelId) {
+      gameCode
+      scoreCode
+      words {
         question
         answer
         tip
       }
     }
+  }
 `
-
 function Game() {
+  const [show, setShow] = useState(false);
   let { topicId, levelId } = useParams();
   const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicId: topicId, levelId: levelId } });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+
+  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const getGameCallback = (handleShow) => (
+    (data) => {
+      console.log(data)
+      handleShow()
+    }
+  )
+
   console.log(data)
   window.gameConfig = {
-    topicId,
-    levelId,
     start_text: `${topicId} Level: ${levelId}`,
-    words: data.fallingTextGame,
-    game_over_callback: function(data) { 
-      console.log(data)
-     }
+    words: data.fallingTextGame.words,
+    game_over_callback: getGameCallback(handleShow)
   }
-  console.log(window.gameConfig)
+
   return (
-    <iframe id="gameIframe" title="falling-text" key={`${topicId}/${levelId}`} src="/konjugator/index.html" className="game-box"></iframe>
+    <React.Fragment>
+      <iframe id="gameIframe" title="falling-text" key={`${topicId}/${levelId}`} src="/konjugator/index.html" className="game-box"></iframe>
+      <CreateScorePopup handleClose={handleClose} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={show} />
+    </React.Fragment>
   )
 }
 

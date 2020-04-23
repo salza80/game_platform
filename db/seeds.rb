@@ -16,3 +16,6 @@ LanguageLevel.create!(short_desc: 'A2')
 LanguageLevel.create!(short_desc: 'B1')
 LanguageLevel.create!(short_desc: 'B2')
 LanguageLevel.create!(short_desc: 'C1')
+
+Game.create!(game_code: 'falling_text', score_code_pattern: '#topicId_#levelId', game_title: 'Falling Text', game_desc: 'Practice your german with a falling text game.')
+
