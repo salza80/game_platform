@@ -25,6 +25,7 @@ const GAME_QUERY = gql`
 `
 function Game() {
   const [show, setShow] = useState(false);
+  const [score, setScore] = useState(0);
   let { topicId, levelId } = useParams();
   const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicId: topicId, levelId: levelId } });
   if (loading) return <p>Loading...</p>;
@@ -32,12 +33,15 @@ function Game() {
 
   
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (data) => {
+    setScore(data.score)
+    setShow(true)
+  }
 
   const getGameCallback = (handleShow) => (
     (data) => {
       console.log(data)
-      handleShow()
+      handleShow(data)
     }
   )
 
@@ -51,7 +55,7 @@ function Game() {
   return (
     <React.Fragment>
       <iframe id="gameIframe" title="falling-text" key={`${topicId}/${levelId}`} src="/konjugator/index.html" className="game-box"></iframe>
-      <CreateScorePopup handleClose={handleClose} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={show} />
+      <CreateScorePopup handleClose={handleClose} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={show} />
     </React.Fragment>
   )
 }
