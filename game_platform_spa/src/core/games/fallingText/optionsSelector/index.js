@@ -15,7 +15,7 @@ export function OptionsSelector () {
   let { topicId, levelId } = useParams();
 	return (
     <div>
-      <div>
+      <div className="border border-primary rounded mt-2 p-2">
         <h3>Select a Level</h3>
         {
           LEVELS.map((v, i) => {
@@ -37,7 +37,9 @@ export function OptionsSelector () {
           })
         }
       </div>
-      <ScoresList gameCode="falling_text" scoreCode={`${topicId}_${levelId}`}> </ScoresList>
+      <div className="border border-primary rounded mt-2 p-2">
+        <ScoresList gameCode="falling_text" scoreCode={`${topicId}_${levelId}`}> </ScoresList>
+      </div>
     </div>
   )
 }
