@@ -12,7 +12,7 @@ module Queries
         OpenStruct.new({
           :user_name => score.user_name,
           :score => score.score,
-          :created_at => score.created_at
+          :created_at => score.created_at.strftime('%d %b %Y  %r')
         })
       end
 
@@ -20,7 +20,7 @@ module Queries
         OpenStruct.new({
           :user_name => score.user_name,
           :score => score.score,
-          :created_at => score.created_at
+          :created_at => score.created_at.strftime('%d %b %Y  %r')
         })
       end
 

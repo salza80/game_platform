@@ -11,7 +11,9 @@ const CREATE_SCORE = gql`
 `;
 
 export default function CreateScorePopup(props) {
-  const [createScore] = useMutation(CREATE_SCORE);
+  const [createScore] = useMutation(CREATE_SCORE, {
+    refetchQueries: ["gameScores"]
+  });
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
