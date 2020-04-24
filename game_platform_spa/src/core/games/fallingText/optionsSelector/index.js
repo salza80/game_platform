@@ -1,4 +1,5 @@
 import React from 'react';
+import ScoresList from "../../../../components/scoresList"
 import {
   Switch,
   Route,
@@ -14,26 +15,29 @@ export function OptionsSelector () {
   let { topicId, levelId } = useParams();
 	return (
     <div>
-      <h3 className="h2">Select a Level</h3>
-      {
-        LEVELS.map((v, i) => {
-          return (
-            <React.Fragment key={i}>
-              <Link className={`btn ${v===levelId ? 'btn-warning' : 'btn-primary'}`} to={`/games/falling-text/${topicId}/${v}`}>{v}</Link>{' '}
-            </React.Fragment>
-          )
-        })
-      }
-      <h3>Select a Topic</h3>
-      {
-        TOPICS.map((v, i) => {
-          return (
-            <React.Fragment key={i}>
-             <Link className={`btn ${v===topicId ? 'btn-warning' : 'btn-primary'}`} to={`/games/falling-text/${v}/${levelId}`}>{v}</Link>{' '}
-            </React.Fragment>
-          )
-        })
-      }
+      <div>
+        <h3>Select a Level</h3>
+        {
+          LEVELS.map((v, i) => {
+            return (
+              <React.Fragment key={i}>
+                <Link className={`btn ${v===levelId ? 'btn-warning' : 'btn-primary'}`} to={`/games/falling-text/${topicId}/${v}`}>{v}</Link>{' '}
+              </React.Fragment>
+            )
+          })
+        }
+        <h3>Select a Topic</h3>
+        {
+          TOPICS.map((v, i) => {
+            return (
+              <React.Fragment key={i}>
+               <Link className={`btn ${v===topicId ? 'btn-warning' : 'btn-primary'}`} to={`/games/falling-text/${v}/${levelId}`}>{v}</Link>{' '}
+              </React.Fragment>
+            )
+          })
+        }
+      </div>
+      <ScoresList gameCode="falling_text" scoreCode={`${topicId}_${levelId}`}> </ScoresList>
     </div>
   )
 }

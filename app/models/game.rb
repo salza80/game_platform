@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-
+	has_many :scores
 
 	## implement parsing score code later
 
