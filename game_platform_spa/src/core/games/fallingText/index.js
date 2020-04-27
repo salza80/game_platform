@@ -1,5 +1,5 @@
 import GameRoutes from './game'
-import OptionsSelectorRoutes from './optionsSelector'
+import GameSidebarRoutes from './gameSidebar'
 import withGameLayout from '../layout'
 
-export default withGameLayout(OptionsSelectorRoutes, GameRoutes)
+export default withGameLayout(GameSidebarRoutes, GameRoutes)

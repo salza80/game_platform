@@ -5,6 +5,6 @@ class Game < ApplicationRecord
 
 	def get_score_code(options)
 		puts options
-		return options.topicId + '_' + options.levelId
+		return options.game_code + '_' + options.level_code
 	end
 end

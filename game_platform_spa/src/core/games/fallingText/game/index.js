@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './game.scss';
 import {
   Switch,
   Route,
   useRouteMatch,
-  useParams
+  useParams,
+  useLocation
 } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import CreateScorePopup from "../../../../components/createScorePopup"
+import Loading from "../../../../components/loading"
 
 const GAME_QUERY = gql`
-  query FallingTextGame($topicId: String!, $levelId: String! ) {
-    fallingTextGame(topicId: $topicId, levelId: $levelId) {
+  query FallingTextGame($topicCode: String!, $levelCode: String! ) {
+    fallingTextGame(topicCode: $topicCode, levelCode: $levelCode) {
       gameCode
       scoreCode
+      gameTitle
+      gameDesc
+      gameShortDesc
       words {
         question
         answer
@@ -23,38 +28,65 @@ const GAME_QUERY = gql`
     }
   }
 `
-function Game() {
-  const [show, setShow] = useState(false);
-  const [score, setScore] = useState(0);
-  let { topicId, levelId } = useParams();
-  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicId: topicId, levelId: levelId } });
 
-  if (loading) return <p>Loading...</p>;
+function GameOverview (props) {
+  return (
+    <div className="jumbotron jumbotron-fluid">
+      <div className="container text-center">
+        <h1 className="display-4">{props.gameTitle}</h1>
+        <p className="lead">{props.gameShortDesc}</p>
+        <p>{props.gameDesc}</p>
+        <div> 
+          <button className="btn btn-primary btn-lg" onClick={props.handlePlayClick}>Play Now!</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Game() {
+  const [showSaveScore, setShowScore] = useState(false);
+  const [showGame, setShowGame] = useState(false)
+  const [score, setScore] = useState(0);
+  let { topicCode, levelCode } = useParams();
+  let location = useLocation();
+
+  // hide game when route/location changes.
+  useEffect(() => {
+   if (showGame) {
+      setShowGame(false)
+    }
+  }, [location]);
+
+  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: topicCode, levelCode: levelCode } });
+
+  if (loading) return <Loading />
   if (error) return <p>Error :(</p>;
 
-  
-  const handleClose = () => setShow(false);
-  const handleShow = (data) => {
+  const handleCloseSaveScore = () => setShowScore(false);
+  const handleShowSaveScore = (data) => {
     setScore(data.score)
-    setShow(true)
+    setShowScore(true)
+    setShowGame(false)
   }
 
-  const getGameCallback = (handleShow) => (
-    (data) => {
-      handleShow(data)
-    }
-  )
+  const handlePlayClick = () => setShowGame(true);
 
   window.gameConfig = {
-    start_text: `${topicId} Level: ${levelId}`,
+    start_text: `${topicCode} Level: ${levelCode}`,
     words: data.fallingTextGame.words,
-    game_over_callback: getGameCallback(handleShow)
+    game_over_callback: handleShowSaveScore
   }
 
   return (
     <React.Fragment>
-      <iframe id="gameIframe" title="falling-text" key={`${topicId}/${levelId}`} src="/konjugator/index.html" className="game-box"></iframe>
-      <CreateScorePopup handleClose={handleClose} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={show} />
+      { showGame && 
+        <iframe id="gameIframe" title="falling-text" key={`${topicCode}/${levelCode}`} src="/konjugator/index.html" className="game-box"></iframe>
+      }
+      { !showGame &&
+        <GameOverview {...data.fallingTextGame} handlePlayClick={handlePlayClick}/>
+      }
+      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={showSaveScore} />
     </React.Fragment>
   )
 }
@@ -63,7 +95,7 @@ function GameRoutes() {
   let { path } = useRouteMatch();
   return (
     <Switch>
-      <Route path={`${path}/:topicId/:levelId`}>
+      <Route path={`${path}/:topicCode/:levelCode`}>
         <Game />
       </Route>
       <Route path={`${path}`}>

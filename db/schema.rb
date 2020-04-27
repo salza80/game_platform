@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_133907) do
+ActiveRecord::Schema.define(version: 2020_04_27_224021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_133907) do
     t.string "game_desc"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "game_short_desc"
   end
 
   create_table "genders", force: :cascade do |t|
@@ -58,7 +59,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_133907) do
   end
 
   create_table "language_levels", force: :cascade do |t|
-    t.string "short_desc", limit: 2
+    t.string "level_code", limit: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

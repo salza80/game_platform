@@ -1,6 +1,6 @@
 class LanguageLevel < ApplicationRecord
 
 	def display_name
-		short_desc
+		level_code
 	end
 end
