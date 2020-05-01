@@ -7,23 +7,26 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 # AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
-Gender.create!(char_desc: 'm', desc: 'Masculine') 
-Gender.create!(char_desc: 'f', desc: 'Feminine') 
-Gender.create!(char_desc: 'n', desc: 'Neutral') 
+Gender.find_or_create_by!(char_desc: 'm', desc: 'Masculine') 
+Gender.find_or_create_by!(char_desc: 'f', desc: 'Feminine') 
+Gender.find_or_create_by!(char_desc: 'n', desc: 'Neutral') 
 
-LanguageLevel.create!(level_code: 'A1')
-LanguageLevel.create!(level_code: 'A2')
-LanguageLevel.create!(level_code: 'B1')
-LanguageLevel.create!(level_code: 'B2')
-LanguageLevel.create!(level_code: 'C1')
+LanguageLevel.find_or_create_by!(level_code: 'A1')
+LanguageLevel.find_or_create_by!(level_code: 'A2')
+LanguageLevel.find_or_create_by!(level_code: 'B1')
+LanguageLevel.find_or_create_by!(level_code: 'B2')
+LanguageLevel.find_or_create_by!(level_code: 'C1')
 
-Game.create!(game_code: 'falling_text', score_code_pattern: '#topicId_#levelId', game_title: 'Falling Text', game_short_desc: 'Practice your german with a falling text game.',
-	game_desc: 'Shoot down the words as they appear, by typing the answer before they hit the blocks. When all the blocks are smashed the game is over!' /
-	'  Score extra points by shooting down the bonus words that fly horizontally across the screen. With each level progression, you will score more points,' / 
-	' so try to protect your blocks as long as possible to achieve the highest scores!. You can choose between practising vocabulary or conjugation.' / 
-	' For Vocabulary the text displayed will be in English, type in the German translation to shoot the word down. For conjugation practice, ' /
-	'a verb will be displayed in the infinitive, type it in the corresponding conjugated form to shoot the words.'
-)
+Game.find_or_create_by!(game_code: 'falling_text') do | g |
+	g.score_code_pattern = '#topicId_#levelId'
+	g.game_title = 'Falling Text'
+	g.game_short_desc = 'Practice your german with a falling text game.'
+	g.game_desc = 'Shoot down the words as they appear, by typing the answer before they hit the blocks. When all the blocks are smashed the game is over!' /
+		'  Score extra points by shooting down the bonus words that fly horizontally across the screen. With each level progression, you will score more points,' / 
+		' so try to protect your blocks as long as possible to achieve the highest scores!. You can choose between practising vocabulary or conjugation.' / 
+		' For Vocabulary the text displayed will be in English, type in the German translation to shoot the word down. For conjugation practice, ' /
+		'a verb will be displayed in the infinitive, type it in the corresponding conjugated form to shoot the words.'
+end
 
 NOUNS = [{ gender:"m", word: "Abend", english: "evening", level: "A1"},
 { gender:"n", word: "Abendbrot", english: "evening meal", level: "A2"},
@@ -439,4 +442,172 @@ NOUNS.each do | noun |
 	n.gender = g
 	n.english = noun[:english]
 	n.save!	
+end
+
+
+
+VERBS = [
+	{ infinitive:"sein", ich:"bin", du: "bist", es: "sind", ihr: "seid", wir: "sind", Sie: "sind", english: "to be", Level: "A1", regular: "0", past_participle: "gewesen", auxiliary_verb: "sein"},
+	{ infinitive:"werden", ich:"werde", du: "wirst", es: "wird", ihr: "werdet", wir: "werden", Sie: "werden", english: "to become", Level: "A2", regular: "0", past_participle: "geworden", auxiliary_verb: "sein"},
+	{ infinitive:"haben", ich:"habe", du: "hast", es: "hat", ihr: "habt", wir: "haben", Sie: "haben", english: "to have", Level: "A1", regular: "0", past_participle: "gehabt", auxiliary_verb: "haben"},
+	{ infinitive:"können", ich:"kann", du: "kannst", es: "kann", ihr: "könnt ", wir: "können ", Sie: "können ", english: "to can\n to be able to", Level: "A1", regular: "0", past_participle: "gekonnt", auxiliary_verb: "haben"},
+	{ infinitive:"müssen", ich:"muss", du: "musst", es: "muss", ihr: "müsst", wir: "müssen", Sie: "müssen", english: "to must", Level: "A1", regular: "0", past_participle: "gemusst", auxiliary_verb: "haben"},
+	{ infinitive:"geben", ich:"gebe", du: "gibst", es: "gibt", ihr: "gebt", wir: "geben", Sie: "geben", english: "to give", Level: "A1", regular: "0", past_participle: "gegeben", auxiliary_verb: "haben"},
+	{ infinitive:"sollen", ich:"soll", du: "sollst", es: "soll", ihr: "sollt", wir: "sollen", Sie: "sollen", english: "to should", Level: "A1", regular: "0", past_participle: "gesollt", auxiliary_verb: "haben"},
+	{ infinitive:"sagen", ich:"sage", du: "sagst", es: "sagt", ihr: "sagt", wir: "sagen", Sie: "sagen", english: "to say", Level: "A1", regular: "1", past_participle: "gesagt", auxiliary_verb: "haben"},
+	{ infinitive:"wollen", ich:"will", du: "willst", es: "will", ihr: "wollt", wir: "wollen", Sie: "wollen", english: "to want", Level: "A1", regular: "0", past_participle: "gewollt", auxiliary_verb: "haben"},
+	{ infinitive:"kommen", ich:"komme", du: "kommst", es: "kommt", ihr: "kommt", wir: "kommen", Sie: "kommen", english: "to come", Level: "A1", regular: "0", past_participle: "gekommen", auxiliary_verb: "sein"},
+	{ infinitive:"gehen", ich:"gehe", du: "gehst", es: "geht", ihr: "geht", wir: "gehen", Sie: "gehen", english: "to go \n to walk", Level: "A1", regular: "0", past_participle: "gegangen", auxiliary_verb: "sein"},
+	{ infinitive:"machen", ich:"mache", du: "machst", es: "macht", ihr: "macht", wir: "machen", Sie: "machen", english: "to do", Level: "A1", regular: "1", past_participle: "gemacht", auxiliary_verb: "haben"},
+	{ infinitive:"stehen", ich:"stehe", du: "stehst", es: "steht", ihr: "steht", wir: "stehen", Sie: "stehen", english: "to stand", Level: "A1", regular: "0", past_participle: "gestanden", auxiliary_verb: "haben"},
+	{ infinitive:"sehen", ich:"sehe", du: "siehst", es: "sieht", ihr: "seht", wir: "sehen", Sie: "sehen", english: "to see", Level: "A1", regular: "0", past_participle: "gesehen", auxiliary_verb: "haben"},
+	{ infinitive:"finden", ich:"finde", du: "findest", es: "findet", ihr: "findet", wir: "finden", Sie: "finden", english: "to find", Level: "A1", regular: "0", past_participle: "gefunden", auxiliary_verb: "haben"},
+	{ infinitive:"bleiben", ich:"bleibe", du: "bleibst", es: "bleibt", ihr: "bleibt", wir: "bleiben", Sie: "bleiben", english: "to stay", Level: "A1", regular: "0", past_participle: "geblieben", auxiliary_verb: "sein"},
+	{ infinitive:"liegen", ich:"liege", du: "liegst", es: "liegt", ihr: "liegt", wir: "liegen", Sie: "liegen", english: "to lie down", Level: "A1", regular: "0", past_participle: "gelegen", auxiliary_verb: "haben"},
+	{ infinitive:"stellen", ich:"stelle", du: "stellst", es: "stellt", ihr: "stellt", wir: "stellen", Sie: "stellen", english: "to put", Level: "A1", regular: "1", past_participle: "gestellt", auxiliary_verb: "haben"},
+	{ infinitive:"nehmen", ich:"nehme", du: "nimmst", es: "nimmt", ihr: "nehmt", wir: "nehmen", Sie: "nehmen", english: "to take", Level: "A1", regular: "0", past_participle: "genommen", auxiliary_verb: "haben"},
+	{ infinitive:"dürfen", ich:"darf", du: "darfst", es: "darf", ihr: "dürft ", wir: "dürfen", Sie: "dürfen", english: "to be allowed", Level: "A1", regular: "0", past_participle: "gedurft", auxiliary_verb: "haben"},
+	{ infinitive:"bringen", ich:"bringe", du: "bringst", es: "bringt", ihr: "bringt", wir: "bringen", Sie: "bringen", english: "to bring", Level: "A1", regular: "0", past_participle: "gebracht", auxiliary_verb: "haben"},
+	{ infinitive:"halten", ich:"halte", du: "hältst", es: "hält", ihr: "haltet", wir: "halten", Sie: "halten", english: "to hold", Level: "A2", regular: "0", past_participle: "gehalten", auxiliary_verb: "haben"},
+	{ infinitive:"spielen", ich:"spiele", du: "spielst", es: "spielt", ihr: "spielt", wir: "spielen", Sie: "spielen", english: "to play", Level: "A1", regular: "1", past_participle: "gespielt", auxiliary_verb: "haben"},
+	{ infinitive:"heißen", ich:"heiße", du: "heißt", es: "heißt", ihr: "heißt", wir: "heißen", Sie: "heißen", english: "to be called", Level: "A1", regular: "0", past_participle: "geheißt", auxiliary_verb: "haben"},
+	{ infinitive:"wissen", ich:"weiß", du: "weißt", es: "weiß", ihr: "wisst", wir: "wissen", Sie: "wissen", english: "to know", Level: "A1", regular: "0", past_participle: "gewusst", auxiliary_verb: "haben"},
+	{ infinitive:"erklären", ich:"erkläre", du: "erklärst", es: "erklärt", ihr: "erklärt", wir: "erklären", Sie: "erklären", english: "to explain", Level: "A1", regular: "1", past_participle: "erklären", auxiliary_verb: "haben"},
+	{ infinitive:"gehören", ich:"gehöre", du: "gehörst", es: "gehört", ihr: "gehört", wir: "gehören", Sie: "gehören", english: "to belong", Level: "A2", regular: "1", past_participle: "gehört ", auxiliary_verb: "haben"},
+	{ infinitive:"beginnen", ich:"beginne", du: "beginnst", es: "beginnt", ihr: "beginnt", wir: "beginnen", Sie: "beginnen", english: "to begin", Level: "A1", regular: "0", past_participle: "begonnen", auxiliary_verb: "haben"},
+	{ infinitive:"sprechen", ich:"spreche", du: "sprichst", es: "sprict", ihr: "sprecht", wir: "sprechen", Sie: "sprechen", english: "to speak", Level: "A1", regular: "0", past_participle: "gesprochen", auxiliary_verb: "haben"},
+	{ infinitive:"tun", ich:"tue", du: "tust", es: "tut", ihr: "tut", wir: "tun", Sie: "tun", english: "to do", Level: "A1", regular: "0", past_participle: "getan", auxiliary_verb: "haben"},
+	{ infinitive:"mögen", ich:"mag", du: "magst", es: "mag", ihr: "mögt", wir: "mögen", Sie: "mögen", english: "to like", Level: "A1", regular: "0", past_participle: "gemocht", auxiliary_verb: "haben"},
+	{ infinitive:"gewinnen", ich:"gewinne", du: "gewinnst", es: "gewinnt", ihr: "gewinnt", wir: "gewinnen", Sie: "gewinnen", english: "to win", Level: "A1", regular: "0", past_participle: "gewonnen", auxiliary_verb: "haben"},
+	{ infinitive:"bekommen", ich:"bekomme", du: "bekommst", es: "bekommt", ihr: "bekommt", wir: "bekommen", Sie: "bekommen", english: "to get", Level: "A1", regular: "1", past_participle: "bekommen", auxiliary_verb: "haben"},
+	{ infinitive:"schreiben", ich:"schreibe", du: "schreibst", es: "schreibt", ihr: "schreibt", wir: "schreiben", Sie: "schreiben", english: "to write", Level: "A1", regular: "0", past_participle: "geschrieben", auxiliary_verb: "haben"},
+	{ infinitive:"arbeiten", ich:"arbeite", du: "arbeitest", es: "arbeitet", ihr: "arbeitet", wir: "arbeiten", Sie: "arbeiten", english: "to work", Level: "A1", regular: "0", past_participle: "gearbeitet", auxiliary_verb: "haben"},
+	{ infinitive:"treffen", ich:"treffe", du: "triffst", es: "trifft", ihr: "trefft", wir: "treffen", Sie: "treffen", english: "to meet", Level: "A1", regular: "0", past_participle: "getroffen", auxiliary_verb: "haben"},
+	{ infinitive:"zahlen", ich:"zahle", du: "zahlst", es: "zahlt", ihr: "zahlt", wir: "zahlen", Sie: "zahlen", english: "to pay", Level: "A1", regular: "1", past_participle: "gezahlt", auxiliary_verb: "haben"},
+	{ infinitive:"leben", ich:"lebe", du: "lebst", es: "lebt", ihr: "lebt", wir: "leben", Sie: "leben", english: "to live", Level: "A1", regular: "1", past_participle: "gelebt", auxiliary_verb: "haben"},
+	{ infinitive:"laufen", ich:"laufe", du: "läufst", es: "läuft", ihr: "lauft", wir: "laufen", Sie: "laufen", english: "to walk", Level: "A1", regular: "0", past_participle: "gelaufen", auxiliary_verb: "sein"},
+	{ infinitive:"brauchen", ich:"brauche", du: "brauchst", es: "braucht", ihr: "braucht", wir: "brauchen", Sie: "brauchen", english: "to need", Level: "A1", regular: "0", past_participle: "gebraucht", auxiliary_verb: "haben"},
+	{ infinitive:"feiern", ich:"feiere", du: "feierst", es: "feiert", ihr: "feiert", wir: "feiern", Sie: "feiern", english: "to celebrate", Level: "A1", regular: "1", past_participle: "gefeiert", auxiliary_verb: "haben"},
+	{ infinitive:"fahren", ich:"fahre", du: "fährst", es: "fährt", ihr: "fahrt", wir: "fahren", Sie: "fahren", english: "to drive", Level: "A1", regular: "0", past_participle: "gefahren", auxiliary_verb: "sein"},
+	{ infinitive:"suchen", ich:"suche", du: "suchst", es: "sucht", ihr: "sucht", wir: "suchen", Sie: "suchen", english: "to search", Level: "A1", regular: "1", past_participle: "gesucht", auxiliary_verb: "haben"},
+	{ infinitive:"legen", ich:"lege", du: "legst", es: "legt", ihr: "legt", wir: "legen", Sie: "legen", english: "to put", Level: "A1", regular: "1", past_participle: "gelegt", auxiliary_verb: "haben"},
+	{ infinitive:"glauben", ich:"glaube", du: "glaubst", es: "glaubt", ihr: "glaubt", wir: "glauben", Sie: "glauben", english: "to believe", Level: "A1", regular: "1", past_participle: "geglaubt", auxiliary_verb: "haben"},
+	{ infinitive:"scheinen", ich:"scheine", du: "scheinst", es: "scheint", ihr: "scheint", wir: "scheinen", Sie: "scheinen", english: "to seem", Level: "A2", regular: "1", past_participle: "gescheinen", auxiliary_verb: "haben"},
+	{ infinitive:"schließen", ich:"schließe", du: "schließt", es: "schließe", ihr: "schließe", wir: "schließen", Sie: "schließen", english: "to close", Level: "A1", regular: "0", past_participle: "geschlossen", auxiliary_verb: "haben"},
+	{ infinitive:"fehlen", ich:"fehle", du: "fehlst", es: "fehlt", ihr: "fehlt", wir: "fehlen", Sie: "fehlen", english: "to lack \n to be wrong", Level: "A2", regular: "1", past_participle: "gefehlt", auxiliary_verb: "haben"},
+	{ infinitive:"kennen", ich:"kenne", du: "kennst", es: "kennt", ihr: "kennt", wir: "kennen", Sie: "kennen", english: "to know", Level: "A1", regular: "0", past_participle: "gekannt", auxiliary_verb: "haben"},
+	{ infinitive:"fragen", ich:"frage", du: "fragst", es: "fragt", ihr: "fragt", wir: "fragen", Sie: "fragen", english: "to ask", Level: "A1", regular: "1", past_participle: "gefragt", auxiliary_verb: "haben"},
+	{ infinitive:"holen", ich:"hole", du: "holst", es: "holt", ihr: "holt", wir: "holen", Sie: "holen", english: "to fetch", Level: "A1", regular: "1", past_participle: "geholt", auxiliary_verb: "haben"},
+	{ infinitive:"ankommen", ich:"komme an", du: "kommst an", es: "kommt an", ihr: "kommt an", wir: "kommen an", Sie: "kommen an", english: "to arrive", Level: "A1", regular: "0", past_participle: "angekommen", auxiliary_verb: "sein"},
+	{ infinitive:"anmachen", ich:"mache", du: "machst an", es: "macht an", ihr: "macht an", wir: "machen an", Sie: "machen an", english: "to turn on", Level: "A1", regular: "1", past_participle: "angemacht", auxiliary_verb: "haben"},
+	{ infinitive:"anrufen", ich:"rufe an", du: "rufst an", es: "ruft an", ihr: "ruft an", wir: "rufen an", Sie: "anrufen", english: "to call", Level: "A1", regular: "0", past_participle: "angerufen", auxiliary_verb: "haben"},
+	{ infinitive:"anziehen", ich:"ziehe an", du: "ziehst an", es: "zieht an", ihr: "zieht an", wir: "ziehen an", Sie: "ziehen an", english: "to pull", Level: "A1", regular: "0", past_participle: "angezogen", auxiliary_verb: "haben"},
+	{ infinitive:"anklicken", ich:"klicke an", du: "klickst an", es: "klickt an", ihr: "klickt an", wir: "klicken an", Sie: "klicken an", english: "to click", Level: "A1", regular: "1", past_participle: "angeklickt", auxiliary_verb: "haben"},
+	{ infinitive:"ankreuzen", ich:"kreuze an", du: "kreuzt an", es: "kreuzt an", ihr: "kreuzt an", wir: "kreuzen an", Sie: "kreuzen an", english: "to mark with a cross", Level: "A1", regular: "1", past_participle: "angekreuzt", auxiliary_verb: "haben"},
+	{ infinitive:"aufstehen", ich:"stehe auf", du: "stehst auf", es: "steht auf", ihr: "steht auf", wir: "stehen auf", Sie: "stehen auf", english: "to get up", Level: "A1", regular: "1", past_participle: "aufgestanden", auxiliary_verb: "sein"},
+	{ infinitive:"ausfüllen", ich:"fülle aus", du: "füllst aus", es: "füllt aus", ihr: "füllt aus", wir: "füllen aus", Sie: "füllen aus", english: "to complete", Level: "A1", regular: "1", past_participle: "ausgefüllt", auxiliary_verb: "haben"},
+	{ infinitive:"aussehen", ich:"sehe aus", du: "siest aus", es: "siet aus", ihr: "seht aus", wir: "sehen aus", Sie: "aussehen", english: "to look", Level: "A1", regular: "0", past_participle: "ausgesehen", auxiliary_verb: "sein"},
+	{ infinitive:"aussteigen", ich:"steige aus", du: "steigst aus", es: "steigt aus", ihr: "steigt aus", wir: "steigen aus", Sie: "aussteigen", english: "to get out", Level: "A1", regular: "0", past_participle: "ausgestiegen ", auxiliary_verb: "sein"},
+	{ infinitive:"bedeuten", ich:"bedeute", du: "bedeutest", es: "bedeutet", ihr: "bedeutet", wir: "bedeuten", Sie: "bedeuten", english: "to mean", Level: "A1", regular: "1", past_participle: "bedeutete", auxiliary_verb: "haben"},
+	{ infinitive:"beginnen", ich:"beginne", du: "beginnst", es: "beginnt", ihr: "beginnt", wir: "beginnen", Sie: "beginnen", english: "to begin", Level: "A1", regular: "0", past_participle: "begonnen", auxiliary_verb: "haben"},
+	{ infinitive:"bekommen", ich:"bekomme", du: "bekommst", es: "bekommt", ihr: "bekommt", wir: "bekommen", Sie: "bekommen", english: "to receive", Level: "A1", regular: "0", past_participle: "bekommen", auxiliary_verb: "haben"},
+	{ infinitive:"bestellen", ich:"bestelle", du: "bestellst", es: "bestellt", ihr: "bestellt", wir: "bestellen", Sie: "bestellen", english: "to order", Level: "A1", regular: "1", past_participle: "bestellt", auxiliary_verb: "haben"},
+	{ infinitive:"bezahlen", ich:"bezahle", du: "bezahlst", es: "bezahlt", ihr: "bezahlt", wir: "bezahlen", Sie: "bezahlen", english: "to pay", Level: "A1", regular: "1", past_participle: "bezahlt", auxiliary_verb: "haben"},
+	{ infinitive:"buchstabieren", ich:"buchstabiere", du: "buchstabierst", es: "buchstabiert", ihr: "buchstabiert", wir: "buchstabieren", Sie: "buchstabieren", english: "to spell", Level: "A1", regular: "1", past_participle: "buchstabiert", auxiliary_verb: "haben"},
+	{ infinitive:"danken", ich:"danke", du: "dankst", es: "dankt", ihr: "dankt", wir: "danken", Sie: "danken", english: "to thank", Level: "A1", regular: "1", past_participle: "gedankt", auxiliary_verb: "haben"},
+	{ infinitive:"drucken", ich:"drucke", du: "druckst", es: "druckt", ihr: "druckt", wir: "drucken", Sie: "drucken", english: "to press", Level: "A1", regular: "1", past_participle: "gedruckt", auxiliary_verb: "haben"},
+	{ infinitive:"einkaufen", ich:"kaufe ein", du: "kaufst ein", es: "kauft ein", ihr: "kauft ein", wir: "kaufen ein", Sie: "einkaufen", english: "to show", Level: "A1", regular: "1", past_participle: "eingekauft", auxiliary_verb: "haben"},
+	{ infinitive:"einladen", ich:"lade ein", du: "lädst ein", es: "lädt ein", ihr: "ladet ein", wir: "laden ein", Sie: "einladen", english: "to invite", Level: "A1", regular: "0", past_participle: "eingeladen", auxiliary_verb: "haben"},
+	{ infinitive:"empfehlen", ich:"empfehle", du: "empfiehlst", es: "empfiehlt", ihr: "empfehlt", wir: "empfehlen", Sie: "empfehlen", english: "to recommend", Level: "A1", regular: "0", past_participle: "empfohlen", auxiliary_verb: "haben"},
+	{ infinitive:"einsteigen", ich:"steige ein", du: "steigst ein", es: "steigt ein", ihr: "steigt ein", wir: "steigen ein", Sie: "einsteigen", english: "to enter", Level: "A1", regular: "0", past_participle: "geingestiegen", auxiliary_verb: "sein"},
+	{ infinitive:"fliegen", ich:"fliege", du: "fliegst", es: "fliegt", ihr: "fliegt", wir: "fliegen", Sie: "fliegen", english: "to fly", Level: "A1", regular: "0", past_participle: "geflogen", auxiliary_verb: "sein"},
+	{ infinitive:"grillen", ich:"grille", du: "grillst", es: "grillt", ihr: "grillt", wir: "grillen", Sie: "grillen", english: "to grill", Level: "A1", regular: "1", past_participle: "gegrillt", auxiliary_verb: "haben"},
+	{ infinitive:"gratulieren", ich:"gratuliere", du: "gratulierst", es: "gratuliert", ihr: "gratuliert", wir: "graturlieren", Sie: "gratulieren", english: "to congratulate", Level: "A1", regular: "1", past_participle: "gratuliert", auxiliary_verb: "haben"},
+	{ infinitive:"heiraten", ich:"heirate", du: "heiratest", es: "heiratet", ihr: "heiratet", wir: "heiraten", Sie: "heiraten", english: "to marry", Level: "A1", regular: "1", past_participle: "geheiratet", auxiliary_verb: "haben"},
+	{ infinitive:"helfen", ich:"helfe", du: "hilfst", es: "hilft", ihr: "helft", wir: "helfen", Sie: "helfen", english: "to help", Level: "A1", regular: "0", past_participle: "geholfen", auxiliary_verb: "haben"},
+	{ infinitive:"kaufen", ich:"kaufe", du: "kaufst", es: "kauft", ihr: "kauft", wir: "kaufen", Sie: "kaufen", english: "to buy", Level: "A1", regular: "1", past_participle: "gekauft", auxiliary_verb: "haben"},
+	{ infinitive:"kümmern", ich:"kümme", du: "kümmerst", es: "kümmert", ihr: "kümmt", wir: "kümmern", Sie: "kümmern", english: "to take care of", Level: "A1", regular: "1", past_participle: "gekümmert", auxiliary_verb: "haben"},
+	{ infinitive:"lachen", ich:"lache", du: "lachst", es: "lacht", ihr: "lacht", wir: "lachen", Sie: "lachen", english: "to laugh", Level: "A1", regular: "1", past_participle: "gelacht", auxiliary_verb: "haben"},
+	{ infinitive:"lieben", ich:"liebe", du: "liebst", es: "liebt", ihr: "liebt", wir: "lieben", Sie: "lieben", english: "to love", Level: "A1", regular: "1", past_participle: "geliebt", auxiliary_verb: "haben"},
+	{ infinitive:"lernen", ich:"lerne", du: "lernst", es: "lernt", ihr: "lernt", wir: "lernen", Sie: "lernen", english: "to learn", Level: "A1", regular: "1", past_participle: "gelernt", auxiliary_verb: "haben"},
+	{ infinitive:"liegen", ich:"liege", du: "liegst", es: "liegt", ihr: "liegt", wir: "liegen", Sie: "liegen", english: "to lie down", Level: "A1", regular: "0", past_participle: "gelegen", auxiliary_verb: "haben"},
+	{ infinitive:"reisen", ich:"reise", du: "reist", es: "reist", ihr: "reist", wir: "reisen", Sie: "reisen", english: "to travel", Level: "A1", regular: "1", past_participle: "gereist", auxiliary_verb: "sein"},
+	{ infinitive:"reparieren", ich:"repariere", du: "reparierst", es: "repariert", ihr: "repariert", wir: "reparieren", Sie: "reparieren", english: "to repair", Level: "A1", regular: "1", past_participle: "repariert", auxiliary_verb: "haben"},
+	{ infinitive:"schmecken", ich:"schmeke", du: "schmeckst", es: "schmeckt", ihr: "schmeckt", wir: "schmecken", Sie: "schmecken", english: "to taste", Level: "A1", regular: "1", past_participle: "geschmeckt", auxiliary_verb: "haben"},
+	{ infinitive:"sitzen", ich:"sitze", du: "sitzt", es: "sizt", ihr: "sitzen", wir: "sitzen", Sie: "sitzen", english: "to sit down", Level: "A1", regular: "0", past_participle: "gesessen", auxiliary_verb: "haben"},
+	{ infinitive:"tanzen", ich:"tanze", du: "tanzt", es: "tanzt", ihr: "tanzt", wir: "tanzen", Sie: "tanzen", english: "to dance", Level: "A1", regular: "1", past_participle: "getanzt", auxiliary_verb: "haben"},
+	{ infinitive:"verstehen", ich:"verstehe", du: "verstehst", es: "versteht", ihr: "versteht", wir: "verstehen", Sie: "verstehen", english: "to understand", Level: "A1", regular: "0", past_participle: "verstanden", auxiliary_verb: "haben"},
+	{ infinitive:"verkaufen", ich:"verkaufe", du: "verkaufst", es: "verkauft", ihr: "verkauft", wir: "verkaufen", Sie: "verkaufen", english: "to sell", Level: "A1", regular: "1", past_participle: "gekauft", auxiliary_verb: "haben"},
+	{ infinitive:"vorstellen", ich:"stelle vor", du: "stellst vor", es: "stellt vor", ihr: "stellt vor", wir: "stellen vor", Sie: "vorstellen", english: "to introduce", Level: "A1", regular: "1", past_participle: "vorgestellt", auxiliary_verb: "haben"},
+	{ infinitive:"vorschlagen", ich:"schlage", du: "schlägst", es: "schlägt ", ihr: "schlagt ", wir: "schlagen ", Sie: "vorschlagen", english: "to propose", Level: "A1", regular: "0", past_participle: "vorgeschlagen", auxiliary_verb: "haben"},
+	{ infinitive:"wandern", ich:"wande", du: "wanderst", es: "wandert", ihr: "wandert", wir: "wandern", Sie: "wandern", english: "to hike", Level: "A1", regular: "1", past_participle: "gewandert", auxiliary_verb: "sein"},
+	{ infinitive:"waschen", ich:"wasche", du: "wäschst", es: "wäscht ", ihr: "wascht ", wir: "waschen", Sie: "waschen", english: "to wash", Level: "A1", regular: "0", past_participle: "gewaschen", auxiliary_verb: "haben"},
+	{ infinitive:"wohnen", ich:"wohne", du: "wohnst", es: "wohnt", ihr: "wohnen", wir: "wohnt", Sie: "wohnen", english: "to live", Level: "A1", regular: "1", past_participle: "gewohnt", auxiliary_verb: "haben"},
+	{ infinitive:"abgeben", ich:"gebe ab", du: "gibst ab", es: "gibt ab", ihr: "gebt ab", wir: "geben ab", Sie: "abgeben", english: "to submit", Level: "A2", regular: "0", past_participle: "abgegeben", auxiliary_verb: "haben"},
+	{ infinitive:"abschließen", ich:"schließe ab", du: "schließt ab", es: "schließt ab", ihr: "schließt ab", wir: "schließen ab", Sie: "abschließen", english: "to lock", Level: "A2", regular: "0", past_participle: "abgeschlossen", auxiliary_verb: "haben"},
+	{ infinitive:"achtgeben", ich:"gebe acht", du: "gibst acht", es: "gibt acht", ihr: "gebt acht", wir: "geben acht", Sie: "achtgeben", english: "to be careful", Level: "C1", regular: "0", past_participle: "achtgegeben", auxiliary_verb: "haben"},
+	{ infinitive:"anbieten", ich:"biete an", du: "bietest an", es: "bietet an", ihr: "bietet an", wir: "bieten an", Sie: "anbieten", english: "to offer", Level: "A2", regular: "0", past_participle: "angeboten", auxiliary_verb: "haben"},
+	{ infinitive:"anfangen", ich:"fange an", du: "fängst an", es: "fängt an ", ihr: "fangt an", wir: "fangen an", Sie: "anfangen", english: "to begin", Level: "A2", regular: "0", past_participle: "angefangen", auxiliary_verb: "haben"},
+	{ infinitive:"anmelden", ich:"melde an", du: "mesdest an", es: "meldet an", ihr: "meldet an", wir: "melden an", Sie: "anmelden", english: "to sign in", Level: "A2", regular: "1", past_participle: "angemeldet", auxiliary_verb: "haben"},
+	{ infinitive:"ausgeben", ich:"gebe aus", du: "gibst aus", es: "gibt aus", ihr: "gebt aus", wir: "geben aus", Sie: "ausgeben", english: "to give out", Level: "A2", regular: "0", past_participle: "ausgegeben", auxiliary_verb: "haben"},
+	{ infinitive:"ausruhen", ich:"ruhe aus", du: "ruhst aus", es: "ruht aus", ihr: "ruht aus", wir: "ruhen aus", Sie: "ausruhen", english: "to take a rest", Level: "A2", regular: "1", past_participle: "ausgeruht", auxiliary_verb: "haben"},
+	{ infinitive:"backen", ich:"backe", du: "bäckst ", es: "bäckt ", ihr: "backt ", wir: "backen", Sie: "backen", english: "to bake", Level: "A2", regular: "1", past_participle: "gebackt", auxiliary_verb: "haben"},
+	{ infinitive:"behalten", ich:"behalte", du: "behältst ", es: "behält ", ihr: "behaltet ", wir: "behalten ", Sie: "behalten", english: "to keep", Level: "A2", regular: "0", past_participle: "behalten", auxiliary_verb: "haben"},
+	{ infinitive:"einfallen", ich:"falle ein", du: "fällst ein", es: "fällt ein", ihr: "fallt ein", wir: "fallen ein", Sie: "einfallen", english: "to come to mind", Level: "A2", regular: "0", past_participle: "eingefallen", auxiliary_verb: "sein"},
+	{ infinitive:"einziehen", ich:"ziehe ein", du: "ziehst ein", es: "zieht ein", ihr: "zieht ein", wir: "ziehen ein", Sie: "einziehen", english: "to move in", Level: "A2", regular: "0", past_participle: "eingezogen", auxiliary_verb: "sein"},
+	{ infinitive:"erinnern", ich:"erinnere", du: "erinnerst", es: "erinnert", ihr: "erinnert", wir: "erinnern", Sie: "erinnern", english: "to recall", Level: "A2", regular: "1", past_participle: "erinnern", auxiliary_verb: "haben"},
+	{ infinitive:"erlauben", ich:"erlaube", du: "erlaubst", es: "erlaubt", ihr: "erlaubt", wir: "erlauben", Sie: "erlauben", english: "to allow", Level: "A2", regular: "1", past_participle: "erlaubt", auxiliary_verb: "haben"},
+	{ infinitive:"fallen", ich:"falle", du: "fällst", es: "fällt", ihr: "fallt", wir: "fallen", Sie: "fallen", english: "to fall", Level: "A2", regular: "0", past_participle: "gefallen", auxiliary_verb: "sein"},
+	{ infinitive:"freuen", ich:"freue", du: "freust", es: "freut", ihr: "freut", wir: "freuen", Sie: "freuen", english: "to look forward to", Level: "A2", regular: "1", past_participle: "gefreut", auxiliary_verb: "haben"},
+	{ infinitive:"fühlen", ich:"fühle", du: "fühlst", es: "fühlt", ihr: "fühlt", wir: "fühlen", Sie: "fühlen", english: "to feel", Level: "A2", regular: "1", past_participle: "gefühlt", auxiliary_verb: "haben"},
+	{ infinitive:"kennenlernen", ich:"lerne kennen", du: "lernst kennen", es: "lernt kennen", ihr: "lernt kennen", wir: "lernen kennen", Sie: "kennenlernen", english: "to get to know", Level: "A2", regular: "1", past_participle: "kennengelernt", auxiliary_verb: "haben"},
+	{ infinitive:"herstellen", ich:"stelle her", du: "stellst her", es: "stellt her", ihr: "stellt her", wir: "stellen her", Sie: "herstellen", english: "to produce", Level: "A2", regular: "1", past_participle: "hergestellt", auxiliary_verb: "haben"},
+	{ infinitive:"interessieren", ich:"interessiere", du: "interessierst", es: "interessiert", ihr: "interessiert", wir: "interessieren", Sie: "interessieren", english: "to be interested", Level: "A2", regular: "1", past_participle: "interessiert", auxiliary_verb: "haben"},
+	{ infinitive:"kriegen", ich:"kriege", du: "kriegst", es: "kriegt", ihr: "kriegt", wir: "kriegen", Sie: "kriegen", english: "to obtain", Level: "A2", regular: "1", past_participle: "gekriegt", auxiliary_verb: "haben"},
+	{ infinitive:"lassen", ich:"lasse", du: "lässt ", es: "lässt ", ihr: "lasst ", wir: "lassen", Sie: "lassen", english: "to let", Level: "A2", regular: "0", past_participle: "gelassen", auxiliary_verb: "haben"},
+	{ infinitive:"leihen", ich:"leihe", du: "leihst", es: "leiht", ihr: "leiht", wir: "leihen", Sie: "leihen", english: "to lend", Level: "A2", regular: "0", past_participle: "geliehen", auxiliary_verb: "haben"},
+	{ infinitive:"liefern", ich:"liefere", du: "lieferst", es: "liefert", ihr: "liefert", wir: "liefern", Sie: "liefern", english: "to deliver", Level: "A2", regular: "1", past_participle: "geliefert", auxiliary_verb: "haben"},
+	{ infinitive:"merken", ich:"merke", du: "merkst", es: "merkt", ihr: "merkt", wir: "merken", Sie: "merken", english: "to notice", Level: "A2", regular: "1", past_participle: "gemerkt", auxiliary_verb: "haben"},
+	{ infinitive:"mitnehmen", ich:"nehme mit", du: "nimmst mit", es: "nimmt mit", ihr: "nehmt mit", wir: "nehmen mit", Sie: "mitnehmen", english: "to take with", Level: "A2", regular: "0", past_participle: "mitgenommen", auxiliary_verb: "haben"},
+	{ infinitive:"riechen", ich:"rieche", du: "riechst", es: "riecht", ihr: "riecht", wir: "riechen", Sie: "riechen", english: "to allow", Level: "A2", regular: "0", past_participle: "gerochen", auxiliary_verb: "haben"},
+	{ infinitive:"sammeln", ich:"sammele", du: "sammelst", es: "sammelt", ihr: "sammelt", wir: "sammeln", Sie: "sammeln", english: "to collect", Level: "A2", regular: "1", past_participle: "gesammelt", auxiliary_verb: "haben"},
+	{ infinitive:"schenken", ich:"schenke", du: "schenkst", es: "schenkt", ihr: "schenkt", wir: "schenken", Sie: "schenken", english: "to give", Level: "A1", regular: "1", past_participle: "geschenkt", auxiliary_verb: "haben"},
+	{ infinitive:"sparen", ich:"spare", du: "sparst", es: "spart", ihr: "spart", wir: "sparen", Sie: "sparen", english: "to save up", Level: "A2", regular: "1", past_participle: "gespart", auxiliary_verb: "haben"},
+	{ infinitive:"speichern", ich:"speichern", du: "speichst", es: "spiechere", ihr: "speichert", wir: "speichern", Sie: "speichern", english: "to save", Level: "A2", regular: "1", past_participle: "gespeichert", auxiliary_verb: "haben"},
+	{ infinitive:"stecken", ich:"stecke", du: "steckst", es: "steckt", ihr: "steckt", wir: "stecken", Sie: "stecken", english: "to plug", Level: "A2", regular: "1", past_participle: "gesteckt", auxiliary_verb: "haben"},
+	{ infinitive:"stören", ich:"störe", du: "störst", es: "stört", ihr: "stört", wir: "stören", Sie: "stören", english: "to disturb", Level: "A2", regular: "1", past_participle: "gestört", auxiliary_verb: "haben"},
+	{ infinitive:"streiten", ich:"streite", du: "streitest", es: "streitet", ihr: "streitet", wir: "streiten", Sie: "streiten", english: "to fight", Level: "A2", regular: "0", past_participle: "gestritten", auxiliary_verb: "haben"},
+	{ infinitive:"tanken", ich:"tanke", du: "tankst", es: "tankt", ihr: "tankt", wir: "tanken", Sie: "tanken", english: "to refuel", Level: "B1", regular: "1", past_participle: "getankt", auxiliary_verb: "haben"},
+	{ infinitive:"teilnehmen", ich:"nehme teil", du: "nimmst teil", es: "nimmt teil", ihr: "nehmt teil", wir: "nehmen teil", Sie: "teilnehmen", english: "to take part", Level: "A2", regular: "0", past_participle: "teilgenommen", auxiliary_verb: "haben"},
+	{ infinitive:"umziehen", ich:"ziehe um", du: "ziehst um", es: "zieht um", ihr: "zieht  um", wir: "ziehen um", Sie: "umziehen", english: "to move", Level: "A2", regular: "0", past_participle: "umgezogen", auxiliary_verb: "sein"},
+	{ infinitive:"unterhalten", ich:"unterhalte", du: "unterhältst", es: "unterhält ", ihr: "unterhaltet ", wir: "unterhalten ", Sie: "unterhalten", english: "to chat", Level: "A2", regular: "0", past_participle: "unterhalten", auxiliary_verb: "haben"},
+	{ infinitive:"unternehmen", ich:"unternehme", du: "unternimmst ", es: "unternimmt ", ihr: "unternehmt", wir: "unternehmen ", Sie: "unternehmen", english: "to undertake", Level: "A2", regular: "0", past_participle: "untergenommen", auxiliary_verb: "haben"},
+	{ infinitive:"verlängern", ich:"verlänge", du: "verlängerst ", es: "verlängert ", ihr: "verlängert ", wir: "verlängern", Sie: "verlängern", english: "to extend", Level: "A2", regular: "1", past_participle: "verlängert ", auxiliary_verb: "haben"},
+	{ infinitive:"verpassen", ich:"verpasse", du: "verpasst ", es: "verpasst ", ihr: "verpasst ", wir: "verpassen", Sie: "verpassen", english: "to miss", Level: "A2", regular: "1", past_participle: "verpasst", auxiliary_verb: "haben"},
+	{ infinitive:"vereinbaren", ich:"vereinbare", du: "vereinbarst", es: "vereinbart ", ihr: "vereinbart ", wir: "vereinbaren ", Sie: "vereinbaren", english: "to arrange", Level: "A2", regular: "1", past_participle: "vereinbart", auxiliary_verb: "haben"},
+	{ infinitive:"verletzen", ich:"verletze", du: "verletzt ", es: "verletzt ", ihr: "verletzt ", wir: "verletzen", Sie: "verletzen", english: "to harm", Level: "A2", regular: "1", past_participle: "verletzt", auxiliary_verb: "haben"},
+	{ infinitive:"verlieren", ich:"verliere", du: "verlierst ", es: "verliert ", ihr: "verliert ", wir: "verlieren ", Sie: "verlieren", english: "to lose something", Level: "A2", regular: "0", past_participle: "verloren", auxiliary_verb: "haben"},
+	{ infinitive:"verschieben", ich:"verschiebe", du: "verschiebst ", es: "verschiebt ", ihr: "verschiebt ", wir: "verschieben ", Sie: "verschieben", english: "to move", Level: "A2", regular: "0", past_participle: "verschoben", auxiliary_verb: "haben"},
+	{ infinitive:"wählen", ich:"wähle", du: "wählst ", es: "wählt ", ihr: "wählt ", wir: "wählen ", Sie: "wählen", english: "to choose", Level: "A2", regular: "1", past_participle: "wählen", auxiliary_verb: "haben"},
+	{ infinitive:"wünschen", ich:"wünsche", du: "wünschst", es: "wünscht ", ihr: "wünscht ", wir: "wünschen", Sie: "wünschen", english: "to wish", Level: "A2", regular: "1", past_participle: "wünschen", auxiliary_verb: "haben"}
+]
+
+
+VERBS.each do | verb |
+	v = Verb.find_or_initialize_by( infinitive: verb[:infinitive])
+	level = LanguageLevel.find_by!(level_code: verb[:Level])
+	v.language_level=level
+	v.english = verb[:english]
+	v.auxiliary_verb = verb[:auxiliary_verb]
+	v.regular = verb[:regular]
+	v.save!
+
+	[:ich, :du, :es, :ihr, :wir, :Sie].each do | subject |
+		vf = v.verb_forms.find_or_initialize_by( form: 'present', subject: subject)
+		vf.word = verb[subject]
+		vf.save
+	end
+	vf = v.verb_forms.find_or_initialize_by( form: 'past_participle' )
+	vf.word = verb[:past_participle]
+	vf.save!
 end

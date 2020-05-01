@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_224021) do
+ActiveRecord::Schema.define(version: 2020_04_30_220047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,30 @@ ActiveRecord::Schema.define(version: 2020_04_27_224021) do
     t.index ["game_id"], name: "index_scores_on_game_id"
   end
 
+  create_table "verb_forms", force: :cascade do |t|
+    t.string "form", null: false
+    t.string "subject"
+    t.string "word", null: false
+    t.bigint "verb_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["verb_id"], name: "index_verb_forms_on_verb_id"
+  end
+
+  create_table "verbs", force: :cascade do |t|
+    t.string "infinitive", null: false
+    t.string "english", null: false
+    t.string "auxiliary_verb", null: false
+    t.boolean "regular", null: false
+    t.bigint "language_level_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["language_level_id"], name: "index_verbs_on_language_level_id"
+  end
+
   add_foreign_key "nouns", "genders"
   add_foreign_key "nouns", "language_levels"
   add_foreign_key "scores", "games"
+  add_foreign_key "verb_forms", "verbs"
+  add_foreign_key "verbs", "language_levels"
 end
