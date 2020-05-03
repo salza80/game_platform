@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './game.scss';
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
-  useLocation
-} from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import CreateScorePopup from "../../../../components/createScorePopup"
@@ -44,21 +37,12 @@ function GameOverview (props) {
   )
 }
 
-function Game() {
+function Game(props) {
   const [showSaveScore, setShowScore] = useState(false);
   const [showGame, setShowGame] = useState(false)
   const [score, setScore] = useState(0);
-  let { topicCode, levelCode } = useParams();
-  let location = useLocation();
 
-  // hide game when route/location changes.
-  useEffect(() => {
-   if (showGame) {
-      setShowGame(false)
-    }
-  }, [location]);
-
-  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: topicCode, levelCode: levelCode } });
+  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: props.topicCode, levelCode: props.levelCode } });
 
   if (loading) return <Loading />
   if (error) return <p>Error :(</p>;
@@ -73,7 +57,7 @@ function Game() {
   const handlePlayClick = () => setShowGame(true);
 
   window.gameConfig = {
-    start_text: `${topicCode} Level: ${levelCode}`,
+    start_text: `${props.topicCode} Level: ${props.levelCode}`,
     words: data.fallingTextGame.words,
     game_over_callback: handleShowSaveScore
   }
@@ -81,7 +65,7 @@ function Game() {
   return (
     <React.Fragment>
       { showGame && 
-        <iframe id="gameIframe" title="falling-text" key={`${topicCode}/${levelCode}`} src="/konjugator/index.html" className="game-box"></iframe>
+        <iframe id="gameIframe" title="falling-text" key={`${props.topicCode}/${props.levelCode}`} src="/konjugator/index.html" className="game-box"></iframe>
       }
       { !showGame &&
         <GameOverview {...data.fallingTextGame} handlePlayClick={handlePlayClick}/>
@@ -91,18 +75,4 @@ function Game() {
   )
 }
 
-function GameRoutes() {
-  let { path } = useRouteMatch();
-  return (
-    <Switch>
-      <Route path={`${path}/:topicCode/:levelCode`}>
-        <Game />
-      </Route>
-      <Route path={`${path}`}>
-        <div>Select Game Options</div>
-      </Route>   
-    </Switch>
-  )
-}
-
-export default GameRoutes
+export default Game
