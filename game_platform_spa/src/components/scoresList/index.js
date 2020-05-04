@@ -58,7 +58,8 @@ export default function ScoresList(props) {
   let { highScoresAllTime, highScoresWeek } = data.gameScores
   return (
     <div>
-      <h3>High Scores</h3>
+      <h5>High Scores</h5>
+      <p>{props.scoreCode}</p>
       <Tabs defaultActiveKey="week">
         <Tab eventKey="week" title="This Week">
           <Scores scores={highScoresWeek} />

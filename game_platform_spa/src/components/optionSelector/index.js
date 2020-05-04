@@ -7,7 +7,7 @@ const OptionSelector = (props) => {
           props.options.map((v, i) => {
             return (
               <React.Fragment key={i}>
-                <button className={`btn ${v===props.currentOption ? 'btn-warning' : 'btn-primary'}`} onClick={(e) => props.handleOptionChanged(v)}>{v}</button>{' '}
+                <button className={`btn btn-sm ${v===props.currentOption ? 'btn-warning' : 'btn-primary'}`} onClick={(e) => props.handleOptionChanged(v)}>{v}</button>{' '}
               </React.Fragment>
             )
           })
