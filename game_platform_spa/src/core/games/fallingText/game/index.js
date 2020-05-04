@@ -29,6 +29,11 @@ function GameOverview (props) {
         <h1 className="display-4">{props.gameTitle}</h1>
         <p className="lead">{props.gameShortDesc}</p>
         <p>{props.gameDesc}</p>
+        <div>
+          <span className="badge badge-primary">{props.levelCode}</span>
+          <span className="badge badge-primary">{props.topicCode}</span>
+          <span className="badge badge-primary">{props.inputTypeCode}</span>
+        </div>
         <div> 
           <button className="btn btn-primary btn-lg" onClick={props.handlePlayClick}>Play Now!</button>
         </div>
@@ -65,12 +70,12 @@ function Game(props) {
   return (
     <React.Fragment>
       { showGame && 
-        <iframe id="gameIframe" title="falling-text" key={`${props.topicCode}/${props.levelCode}`} src="/konjugator/index.html" className="game-box"></iframe>
+        <iframe id="gameIframe" title="falling-text" key={`${props.topicCode}/${props.levelCode}/${props.inputTypeCode}`} src="/konjugator/index.html" className="game-box"></iframe>
       }
       { !showGame &&
-        <GameOverview {...data.fallingTextGame} handlePlayClick={handlePlayClick}/>
+        <GameOverview {...data.fallingTextGame} {...props} handlePlayClick={handlePlayClick}/>
       }
-      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={data.fallingTextGame.scoreCode} show={showSaveScore} />
+      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={`${props.topicCode}_${props.levelCode}_${props.inputTypeCode}`} show={showSaveScore} />
     </React.Fragment>
   )
 }
