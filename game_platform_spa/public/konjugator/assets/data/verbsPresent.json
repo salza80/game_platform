@@ -198,5 +198,7 @@
    { "question" : "ihr (schließen)","answer": "schließe", "tip": "to close"},
    { "question" : "ihr (fehlen)","answer": "fehlt", "tip": "to lack \n to be missing \n to be absent"},
    { "question" : "ihr (kennen)","answer": "kennt", "tip": "to know"},
-   { "question" : "ihr (fragen)","answer": "fragt", "tip": "to ask"}
+   { "question" : "ihr (fragen)","answer": "fragt", "tip": "to ask"},
+   { "question" : "ich (einsteigen)", "answer": "steige ein", "tip": "to get in"},
+   { "question" : "apple", "answer": "Apple", "tip": "apple"}
 ]
