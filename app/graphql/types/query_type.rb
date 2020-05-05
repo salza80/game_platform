@@ -6,5 +6,7 @@ module Types
     field :falling_text_game, resolver: Queries::FallingTextGame
     field :game_scores, resolver: Queries::GameScores
 
+    field :me, resolver: Queries::Me
+
   end
 end

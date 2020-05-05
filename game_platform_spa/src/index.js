@@ -10,9 +10,23 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 
+// const client = new ApolloClient({
+//   uri: process.env.REACT_APP_GRAPHQL,
+// });
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL,
-});
+  request: (operation) => {
+    const token = localStorage.getItem('token')
+    console.log("HERE")
+    console.log(localStorage.getItem('token'))
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  }
+})
 
 console.log(process.env.REACT_APP_GRAPHQL)
 

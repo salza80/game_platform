@@ -2,6 +2,7 @@ import React from 'react';
 import Games from './games'
 import About from './about'
 import FallingText from './games/fallingText'
+import LoginForm from "../components/userAdmin/loginForm"
 import './layout.scss'
 import {
   Switch,
@@ -10,7 +11,6 @@ import {
 } from "react-router-dom";
 
 function Layout () {
-
 return (
     <React.Fragment>
       <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -32,6 +32,9 @@ return (
               </Route>
               <Route exact path="/games">
                 <Games />
+              </Route>
+              <Route exact path="/login">
+                <LoginForm />
               </Route>
               <Route path="/games/falling-text">
                 <FallingText />

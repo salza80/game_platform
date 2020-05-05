@@ -5,7 +5,17 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.find_or_create_by!(email: 'admin@example.com') do | adminUser |
+	adminUser.password = 'password'
+	adminUser.password_confirmation = 'password'
+end if Rails.env.development?
+
+User.find_or_create_by!(email: 'test@example.com') do | user |
+	user.password = 'password'
+	user.password_confirmation = 'password'
+	user.confirmed_at = DateTime.now
+	user.skip_confirmation!
+end if Rails.env.development?
 
 Gender.find_or_create_by!(char_desc: 'm', desc: 'Masculine') 
 Gender.find_or_create_by!(char_desc: 'f', desc: 'Feminine') 
