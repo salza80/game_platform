@@ -3,29 +3,11 @@ import { Button, Form } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
+import { ME } from '../queries.js'
 
-const ME = gql`
- query me {
-    me {
-      email
-      token
-    }
-  }
-`;
-
-function Me(props) {
-  const { loading, error, data } = useQuery(ME);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return (
-    <div>
-      <div>{data.me.email}</div>
-      <div></div>
-    </div>
-  )
-}
+import {
+  useHistory
+} from "react-router-dom";
 
 const LOGIN = gql`
   mutation login($email: String!, $password: String!) {
@@ -36,17 +18,17 @@ const LOGIN = gql`
   }
 `;
 
-const onLoginCompeted = (data) => {
-    localStorage.setItem('token',data.login.token)
-    console.log(localStorage.getItem('token'))
-  }
-
 export default function LoginForm(props) {
-  const [login] = useMutation(LOGIN, {onCompleted: onLoginCompeted});
   const [validated, setValidated] = useState(false);
+  const { refetch } = useQuery(ME);
+  const history = useHistory();
 
-
-  
+  const onLoginCompeted = (data) => {
+    localStorage.setItem('token', data.login.token)
+    refetch()
+    history.push("/");
+  }
+  const [login] = useMutation(LOGIN, { onCompleted: onLoginCompeted});
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,9 +40,9 @@ export default function LoginForm(props) {
         email: form.elements.email.value,
         password: form.elements.password.value
       }})
-    }
+    } else { setValidated(true)}
 
-    setValidated(true);
+    
   };
   return (
     <div>
@@ -83,7 +65,7 @@ export default function LoginForm(props) {
           Login
         </Button>
     </Form>
-    <Me />
+    
     </div>
   
   );

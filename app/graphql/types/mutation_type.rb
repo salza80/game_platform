@@ -3,5 +3,6 @@ module Types
     field :create_score, mutation: Mutations::CreateScore
 
     field :login, mutation: Mutations::User::Login
+    field :logout, mutation: Mutations::User::Logout
   end
 end

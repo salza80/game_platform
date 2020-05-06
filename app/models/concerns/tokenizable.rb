@@ -16,6 +16,16 @@ module Tokenizable
     end
   end
 
+  module ClassMethods
+    def revoke_token(token)
+      token_revoker.call(token)
+    end
+
+    def token_revoker
+      Warden::JWTAuth::TokenRevoker.new
+    end
+  end
+
   private def user_encoder
     Warden::JWTAuth::UserEncoder.new
   end

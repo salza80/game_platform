@@ -3,12 +3,28 @@ import Games from './games'
 import About from './about'
 import FallingText from './games/fallingText'
 import LoginForm from "../components/userAdmin/loginForm"
+import Logout from "../components/userAdmin/logout"
+import withAuthentication from "../components/userAdmin/withAuthentication"
 import './layout.scss'
 import {
   Switch,
   Route,
   Link
 } from "react-router-dom";
+
+function LogOutButton() {
+  return (
+      <Link className="nav-link" to='/logout'>logout</Link>
+    )
+}
+
+function LogInButton() {
+  return (
+      <Link className="nav-link" to='/login'>login</Link>
+    )
+}
+
+const LogInOutButtons = withAuthentication(LogOutButton, LogInButton)
 
 function Layout () {
 return (
@@ -18,7 +34,7 @@ return (
         {/* <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap">
-            <Link className="nav-link" to='/signout'>Signout</Link>
+            <LogInOutButtons />
           </li>
         </ul>
       </nav>
@@ -35,6 +51,9 @@ return (
               </Route>
               <Route exact path="/login">
                 <LoginForm />
+              </Route>
+              <Route exact path="/logout">
+                <Logout />
               </Route>
               <Route path="/games/falling-text">
                 <FallingText />

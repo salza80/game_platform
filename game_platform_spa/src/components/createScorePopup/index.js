@@ -36,7 +36,7 @@ export default function CreateScorePopup(props) {
   return (
       <Modal show={props.show} onHide={props.handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Save you score!</Modal.Title>
+          <Modal.Title>Save your score!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
