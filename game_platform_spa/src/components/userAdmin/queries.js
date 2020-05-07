@@ -4,6 +4,7 @@ export const ME = gql`
  query me {
     me {
       email
+      displayName
       token
     }
   }

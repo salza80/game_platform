@@ -2,9 +2,9 @@ class GamePlatformSchema < GraphQL::Schema
   rescue_from(Errors::ValidationError) do |message|
     GraphQL::ExecutionError.new(message, extensions: {code: 'VALIDATION_ERROR'})
   end
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-		nil
-	end
+ #  rescue_from ActiveRecord::RecordNotFound do |exception|
+	# 	nil
+	# end
 	rescue_from ActiveRecord::RecordInvalid do |exception|
 		GraphQL::ExecutionError.new(exception.record.errors.full_messages.join("\n"))
 	end

@@ -3,36 +3,18 @@ import { Button, Form, Alert } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { ME } from '../queries.js'
 
-import {
-  useHistory
-} from "react-router-dom";
-
-const SIGN_UP = gql`
-  mutation signUp($email: String!, $password: String!, $passwordConfirmation: String!) {
-    signUp(attributes: { email: $email, password: $password, passwordConfirmation: $passwordConfirmation }) {
-      email
-      token
+const UPDATE_USER_PASSWORD = gql`
+  mutation updateUserPassword($password: String!, $passwordConfirmation: String!) {
+    updateUserPassword(password: $password, passwordConfirmation: $passwordConfirmation) {
+      displayName
     }
   }
 `;
 
-export default function SignUpForm() {
+export default function UpdateUserPasswordForm() {
   const [validated, setValidated] = useState(false);
-  const { refetch } = useQuery(ME);
-  const history = useHistory();
-
-  const onSignUpCompeted = (data) => {
-    if (data.signUp) {
-      localStorage.setItem('token', data.signUp.token)
-      refetch().then(() => {
-        history.push("/")
-      })
-    }
-  }
-
-  const [signUp,  { error: loginError, loading: submitting }] = useMutation(SIGN_UP, { onCompleted: onSignUpCompeted});
+  const [updateUserPassword,  { error: updateError, loading: submitting, data: updateResult }] = useMutation(UPDATE_USER_PASSWORD);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,38 +22,23 @@ export default function SignUpForm() {
     const form = event.currentTarget;
 
     if (form.checkValidity()) { 
-      signUp(
+      updateUserPassword(
         { variables:
-          { email: form.elements.email.value,
-            displayName: form.elements.displayName.value,
+          { 
             password: form.elements.password.value,
             passwordConfirmation: form.elements.passwordConfirmation.value
           }
         }
       ).catch(e => {
-        form.reset()
         setValidated(false)
       })
     } else { setValidated(true)}
 
   };
+
   return (
     <div>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="text" required placeholder="Enter email" />
-              <Form.Control.Feedback type="invalid">
-                Please provide an email.
-              </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="displayName">
-            <Form.Label>Display name</Form.Label>
-            <Form.Control type="text" required placeholder="Enter a public display name" />
-              <Form.Control.Feedback type="invalid">
-                Please provide a name.
-              </Form.Control.Feedback>
-          </Form.Group>
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" required placeholder="Enter password" />
@@ -87,16 +54,16 @@ export default function SignUpForm() {
               </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit" disabled={submitting ? true : false}>
-            Signup
+            Update Password
           </Button>
       </Form>
       <div className='mt-3'>
-        {loginError && loginError.graphQLErrors.map(({ message }, i) => (
+        {updateError && updateError.graphQLErrors && updateError.graphQLErrors.map(({ message }, i) => (
           <Alert key={i} variant={'warning'}>{message}</Alert>
         ))}
+        {updateResult &&  <Alert variant={'success'}>Password Successfully Updated!</Alert>}
         </div>
     </div>
   
   );
 }
-
