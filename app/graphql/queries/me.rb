@@ -5,6 +5,7 @@ module Queries
     description 'Returns the current user'
 
     def resolve
+      puts context[:current_user]
       context[:current_user]
     end
   end

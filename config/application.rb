@@ -14,7 +14,7 @@ module GamePlatform
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '/graphql', headers: :any, methods: [:get, :post, :options]
+        resource '/graphql', headers: :any, methods: [:get, :post, :options, :patch, :delete, :put]
       end
     end
 

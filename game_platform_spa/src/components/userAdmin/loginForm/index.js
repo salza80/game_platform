@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, Alert } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -22,13 +22,19 @@ export default function LoginForm(props) {
   const [validated, setValidated] = useState(false);
   const { refetch } = useQuery(ME);
   const history = useHistory();
-
+ 
   const onLoginCompeted = (data) => {
-    localStorage.setItem('token', data.login.token)
-    refetch()
-    history.push("/");
+    if (data.login) {
+      localStorage.setItem('token', data.login.token)
+      refetch().then(() => {
+          history.push("/")
+        }).catch (e => {
+          console.log('loginrefetcherror')
+          console.log(e)
+        })
+    }
   }
-  const [login] = useMutation(LOGIN, { onCompleted: onLoginCompeted});
+  const [login, { error: loginError, loading: submitting }] = useMutation(LOGIN, { onCompleted: onLoginCompeted});
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,10 +45,13 @@ export default function LoginForm(props) {
       login({ variables: {
         email: form.elements.email.value,
         password: form.elements.password.value
-      }})
+      }}).catch(e => {
+        console.log('loginerror')
+        console.log(e)
+        form.reset()
+        setValidated(false)
+      })
     } else { setValidated(true)}
-
-    
   };
   return (
     <div>
@@ -56,14 +65,19 @@ export default function LoginForm(props) {
         </Form.Group>
         <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="text" required placeholder="Enter password" />
+          <Form.Control type="password" required placeholder="Enter password" />
             <Form.Control.Feedback type="invalid">
               Please provide a password.
             </Form.Control.Feedback>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" disabled={submitting ? true : false}>
           Login
         </Button>
+        <div className='mt-3'>
+        {loginError && loginError.graphQLErrors && loginError.graphQLErrors.map(({ message }, i) => (
+          <Alert key={i} variant={'warning'}>{message}</Alert>
+        ))}
+        </div>
     </Form>
     
     </div>

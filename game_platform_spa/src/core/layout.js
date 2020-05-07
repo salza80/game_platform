@@ -4,6 +4,7 @@ import About from './about'
 import FallingText from './games/fallingText'
 import LoginForm from "../components/userAdmin/loginForm"
 import Logout from "../components/userAdmin/logout"
+import SignUpForm from "../components/userAdmin/signUpForm"
 import withAuthentication from "../components/userAdmin/withAuthentication"
 import './layout.scss'
 import {
@@ -54,6 +55,9 @@ return (
               </Route>
               <Route exact path="/logout">
                 <Logout />
+              </Route>
+              <Route exact path="/signup">
+                <SignUpForm />
               </Route>
               <Route path="/games/falling-text">
                 <FallingText />

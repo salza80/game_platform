@@ -17,15 +17,18 @@ export default function Logout() {
   const history = useHistory();
   const onLogoutCompeted = (data) => {
     localStorage.removeItem('token')
-    refetch()
-    history.push("/");
+    refetch().then(() => {
+      history.push("/")
+    }).catch(e=> console.log(e))
   }
   const [logout, { loading, error }] = useMutation(LOGOUT, { onCompleted: onLogoutCompeted});
 
   if (loading) return <div>Logging out</div>
   if (error) return <div>Error</div>
 
-  if (localStorage.getItem('token')) { logout() }
+  if (localStorage.getItem('token')) { 
+    logout().catch(e => {console.log(e)})
+  }
   
   return (
     <div>You have been logged out</div>

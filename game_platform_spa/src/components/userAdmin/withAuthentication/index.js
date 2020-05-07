@@ -3,10 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import { ME } from '../queries.js'
 
-
 function withAuthentication(ComponentWith, ComponentWithout) {
-
-
   return function Me () {
 	  const { loading, error, data } = useQuery(ME);
 

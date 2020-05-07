@@ -10,6 +10,10 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 
+function logout() {
+  localStorage.removeItem('token')
+}
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL,
   request: (operation) => {
@@ -19,8 +23,29 @@ const client = new ApolloClient({
         authorization: token ? `Bearer ${token}` : ''
       }
     })
-  }
+  },
+  onError: (({ graphQLErrors, networkError, response, operation }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        ),
+      );
+    if (networkError) {
+      if (networkError.statusCode === 401) {
+        logout()
+      } else {
+        console.log(`[Network error]: ${networkError}`);
+      }
+    }
+  })
 })
+
+client.defaultOptions = {
+    query: {
+      errorPolicy: 'all',
+    },
+  }
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,3 +62,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
