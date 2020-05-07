@@ -1,3 +1,4 @@
 import CreateScorePopup from './createScorePopup'
+import PrivateRoute from './privateRoute'
 
-export default CreateScorePopup
+export { CreateScorePopup, PrivateRoute }

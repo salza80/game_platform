@@ -7,6 +7,7 @@ import Logout from "../components/userAdmin/logout"
 import SignUpForm from "../components/userAdmin/signUpForm"
 import Profile from "../components/userAdmin/profile"
 import withAuthentication from "../components/userAdmin/withAuthentication"
+import { PrivateRoute } from "../components/"
 import './layout.scss'
 import {
   Switch,
@@ -60,9 +61,9 @@ return (
               <Route exact path="/signup">
                 <SignUpForm />
               </Route>
-              <Route exact path="/profile">
+              <PrivateRoute exact path="/profile">
                 <Profile />
-              </Route>
+              </PrivateRoute>
               <Route path="/games/falling-text">
                 <FallingText />
               </Route>

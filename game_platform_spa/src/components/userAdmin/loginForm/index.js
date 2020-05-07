@@ -29,7 +29,6 @@ export default function LoginForm(props) {
       refetch().then(() => {
           history.push("/")
         }).catch (e => {
-          console.log('loginrefetcherror')
           console.log(e)
         })
     }
@@ -46,8 +45,6 @@ export default function LoginForm(props) {
         email: form.elements.email.value,
         password: form.elements.password.value
       }}).catch(e => {
-        console.log('loginerror')
-        console.log(e)
         form.reset()
         setValidated(false)
       })

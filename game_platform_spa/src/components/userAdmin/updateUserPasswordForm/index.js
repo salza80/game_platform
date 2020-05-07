@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 
 const UPDATE_USER_PASSWORD = gql`
   mutation updateUserPassword($password: String!, $passwordConfirmation: String!) {
