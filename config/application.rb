@@ -11,12 +11,13 @@ module GamePlatform
     # Initialize configuration defaults for originally generated Rails version.
     
 
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource '/graphql', headers: :any, methods: [:get, :post, :options, :patch, :delete, :put]
-      end
-    end
+    ## not required for develpment when using create react at proxy requests.
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins '*'
+    #     resource '/graphql', headers: :any, methods: [:get, :post, :options, :patch, :delete, :put]
+    #   end
+    # end
 
     config.load_defaults 6.0
 
