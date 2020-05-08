@@ -15,31 +15,41 @@ import {
   Link
 } from "react-router-dom";
 
-function LogOutButton() {
+function LoggedOutNav() {
   return (
-      <Link className="nav-link" to='/logout'>logout</Link>
+      <ul className="navbar-nav px-3 ml-auto" >
+        <li className="nav-item text-nowrap">
+          <Link className="nav-link" to='/login'>login</Link>
+        </li>
+      </ul>
     )
 }
 
-function LogInButton() {
+function LoggedInNav(props) {
   return (
-      <Link className="nav-link" to='/login'>login</Link>
+      <React.Fragment>
+         <ul className="navbar-nav ml-auto px-3">
+          <li className="nav-item text-nowrap">
+            <Link className="nav-link" to='/profile'>{props.me && props.me.displayName ? props.me.displayName : 'Profile'}</Link>
+          </li>
+          <li className="nav-item text-nowrap">
+            <Link className="nav-link" to='/logout'>logout</Link>
+          </li>
+        </ul>
+      </React.Fragment>
     )
 }
 
-const LogInOutButtons = withAuthentication(LogOutButton, LogInButton)
+const NavBarLinks = withAuthentication(LoggedInNav, LoggedOutNav)
 
 function Layout () {
 return (
     <React.Fragment>
-      <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
        <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to='/'>German Games</Link>
         {/* <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
-        <ul className="navbar-nav px-3">
-          <li className="nav-item text-nowrap">
-            <LogInOutButtons />
-          </li>
-        </ul>
+        <NavBarLinks />
+
       </nav>
       <div className="container-fluid main-content">
           <Switch>
