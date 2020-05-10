@@ -3,6 +3,8 @@ import { Button, Form, Alert } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { parseFormValidationErrors } from '../../helpers'
+import FormErrors from '../../formErrors'
 
 const UPDATE_USER_PASSWORD = gql`
   mutation updateUserPassword($password: String!, $passwordConfirmation: String!) {
@@ -15,12 +17,13 @@ const UPDATE_USER_PASSWORD = gql`
 export default function UpdateUserPasswordForm() {
   const [validated, setValidated] = useState(false);
   const [updateUserPassword,  { error: updateError, loading: submitting, data: updateResult }] = useMutation(UPDATE_USER_PASSWORD);
+  let validationErrors = parseFormValidationErrors(updateError)
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget;
-
+    setValidated(false)
     if (form.checkValidity()) { 
       updateUserPassword(
         { variables:
@@ -29,9 +32,7 @@ export default function UpdateUserPasswordForm() {
             passwordConfirmation: form.elements.passwordConfirmation.value
           }
         }
-      ).catch(e => {
-        setValidated(false)
-      })
+      ).catch(e => {})
     } else { setValidated(true)}
 
   };
@@ -41,28 +42,23 @@ export default function UpdateUserPasswordForm() {
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" required placeholder="Enter password" />
+            <Form.Control type="password" isInvalid={!!validationErrors['password']}  required placeholder="Enter password" />
               <Form.Control.Feedback type="invalid">
-                Please provide a password.
+                {validationErrors['password'] ? validationErrors['password'] : 'Please provide a password.'}
               </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="passwordConfirmation">
             <Form.Label>Password Confirmation</Form.Label>
-            <Form.Control type="password" required placeholder="Enter password again" />
+            <Form.Control type="password" isInvalid={!!validationErrors['passwordConfirmation']}  required placeholder="Enter password again" />
               <Form.Control.Feedback type="invalid">
-                Please re-enter the password.
+                {validationErrors['passwordConfirmation'] ? validationErrors['passwordConfirmation'] : 'Please re-enter the password.'}
               </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit" disabled={submitting ? true : false}>
             Update Password
           </Button>
       </Form>
-      <div className='mt-3'>
-        {updateError && updateError.graphQLErrors && updateError.graphQLErrors.map(({ message }, i) => (
-          <Alert key={i} variant={'warning'}>{message}</Alert>
-        ))}
-        {updateResult &&  <Alert variant={'success'}>Password Successfully Updated!</Alert>}
-        </div>
+      <FormErrors errors={updateError} success={updateResult ? true : false} />
     </div>
   
   );

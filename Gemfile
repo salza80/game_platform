@@ -33,9 +33,9 @@ gem 'devise-jwt', '~> 0.6.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'rack-cors'
+# gem 'rack-cors'
 
-gem 'graphql', '~> 1.8.13'
+gem 'graphql', '~> 1.10.9'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

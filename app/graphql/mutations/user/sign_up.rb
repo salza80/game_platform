@@ -8,5 +8,4 @@ class Mutations::User::SignUp < GraphQL::Schema::Mutation
   def resolve(attributes:)
     User.create!(attributes.to_kwargs)
   end
-
 end

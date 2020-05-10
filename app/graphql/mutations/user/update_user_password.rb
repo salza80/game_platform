@@ -11,7 +11,7 @@ class Mutations::User::UpdateUserPassword < GraphQL::Schema::Mutation
     password_confirmation: context[:current_user] ? context[:current_user].password_confirmation : ''
   )
     user = context[:current_user]
-    raise Errors::ValidationError.new  "User Update Failed - Not logged in" if !user
+    raise Errors::ValidationError.new  "User Update Failed - Not logged in" unless user
 
     user.update!(
       password: password,
