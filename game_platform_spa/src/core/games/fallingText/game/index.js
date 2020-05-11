@@ -6,7 +6,7 @@ import CreateScorePopup from "../../../../components/createScorePopup"
 import WordListPopup from "../../../../components/wordListPopup"
 import Loading from "../../../../components/loading"
 import OptionSelector from "../../../../components/optionSelector"
-import { LEVELS, TOPICS, INPUT_TYPES } from "../constants"
+import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMMING_SOON } from "../constants"
 
 const GAME_QUERY = gql`
   query FallingTextGame($topicCode: String!, $levelCode: String! ) {
@@ -34,6 +34,17 @@ function GameOverview (props) {
          <div className="border border-primary rounded mt-2 mb-4 p-2">
           <h5>Select a Level</h5>
           <OptionSelector handleOptionChanged={props.handleOptionChanged('levelCode')} currentOption={props.levelCode} options={LEVELS} />
+          <div className='mt-1'>
+          { 
+            LEVELS_COMMING_SOON.map((v, i) => {
+              return (
+                <React.Fragment key={i}>
+                  <button className='btn btn-sm btn-primary' title='comming soon!' disabled>{v}</button>{' '}
+                </React.Fragment>
+              )
+            })
+          }
+          </div>
           <h5>Select a Topic</h5>
           <OptionSelector handleOptionChanged={props.handleOptionChanged('topicCode')} currentOption={props.topicCode} options={TOPICS} />
           <h5>Select a Game Input Type</h5>

@@ -1,4 +1,5 @@
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1']
+export const LEVELS = ['A1', 'A2']
+export const LEVELS_COMMING_SOON =  ['B1', 'B2', 'C1']
 export const TOPICS = ['Vocabulary', 'Konjugation']
 export const INPUT_TYPES = ['Keyboard', 'Touch']
 
