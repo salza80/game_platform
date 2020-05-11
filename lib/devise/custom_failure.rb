@@ -1,7 +1,7 @@
 module Devise
   class CustomFailure < Devise::FailureApp
     def redirect_url
-      new_admin_user_session
+      new_admin_user_session_path
     end
 
     # You need to override respond to eliminate recall

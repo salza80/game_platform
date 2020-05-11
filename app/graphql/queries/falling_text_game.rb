@@ -9,13 +9,22 @@ module Queries
     def resolve(topic_code:, level_code:)
       game = Game.find_by(game_code: "falling_text")
       words = Array.new
-      if topic_code == "Konjugation"
+      if topic_code == "Conjugation"
           Verb.includes(:verb_forms).joins(:language_level).joins(:verb_forms).where("language_levels.level_code = :level_code AND verb_forms.form =:form", { level_code: level_code, form: "present" }).order(:infinitive).each do | verb |
             verb.verb_forms.each do | form |
               if ["ich", "du", "ihr", "es"].include?(form.subject)
-                word = OpenStruct.new({ question: verb.infinitive + " (" +  form.subject + ")", answer: form.word, tip: form.word })
+                word = OpenStruct.new({ question: + "(" +  form.subject + ") " + verb.infinitive, answer: form.word, tip: form.word })
                 words.push(word)
               end
+            end
+          end
+      end
+
+      if topic_code == "Past Participle"
+          Verb.includes(:verb_forms).joins(:language_level).joins(:verb_forms).where("language_levels.level_code = :level_code AND verb_forms.form =:form", { level_code: level_code, form: "past_participle" }).order(:infinitive).each do | verb |
+            verb.verb_forms.each do | form |
+                word = OpenStruct.new({ question: verb.infinitive, answer: form.word, tip: form.word })
+                words.push(word)
             end
           end
       end
@@ -29,7 +38,6 @@ module Queries
  
       OpenStruct.new({
         game_code: game.game_code,
-        score_code: topic_code + "_" + level_code,
         game_title: game.game_title,
         game_short_desc: game.game_short_desc,
         game_desc: game.game_desc,

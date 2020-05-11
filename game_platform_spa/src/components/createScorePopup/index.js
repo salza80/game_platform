@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap'
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { ME } from '../userAdmin/queries.js'
+import LoginForm from '../userAdmin/loginForm'
 
 const CREATE_SCORE = gql`
-  mutation createScore($gameCode: String!, $scoreCode: String!, $userName: String!, $score: Int! ) {
-    createScore(gameCode: $gameCode, scoreCode: $scoreCode, userName: $userName, score: $score)
+  mutation createScore($gameCode: String!, $scoreCode: String!, $score: Int! ) {
+    createScore(gameCode: $gameCode, scoreCode: $scoreCode, score: $score)
   }
 `;
 
@@ -14,24 +16,25 @@ export default function CreateScorePopup(props) {
   const [createScore] = useMutation(CREATE_SCORE, {
     refetchQueries: ["gameScores"]
   });
-  const [validated, setValidated] = useState(false);
+
+  const { loading, error, data } = useQuery(ME)
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const form = event.currentTarget;
-
-    if (form.checkValidity()) {
       createScore({ variables: {
-        userName: form.elements.userName.value,
         gameCode: props.gameCode,
         scoreCode: props.scoreCode,
         score: props.score
-      }});
-      props.handleClose();
-    }
-
-    setValidated(true);
+      }})
+      .catch (e => {
+        console.log(e)
+      })
+      .then(() => props.handleClose() )
   };
   return (
       <Modal show={props.show} onHide={props.handleClose} animation={false}>
@@ -39,21 +42,21 @@ export default function CreateScorePopup(props) {
           <Modal.Title>Save your score!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group controlId="userName">
-              <Form.Label>Display Name </Form.Label>
-              <Form.Control type="text" required placeholder="Enter name" />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a name.
-                </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Enter your name to save your score
-              </Form.Text>
-            </Form.Group>
-            <Button variant="primary" type="submit">
+          <div>
+            <p>Congratulations! Your score is: {props.score}</p>
+          </div>
+          { data && data.me &&
+            <Button variant="primary" onClick={handleSubmit}>
               Save Score!
             </Button>
-        </Form>
+          }
+          { (!data || !data.me) && 
+            <div>
+              Login to save your score!
+              <LoginForm redirectAfterLogin={false} />
+            </div>
+          }
+          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.handleClose}>

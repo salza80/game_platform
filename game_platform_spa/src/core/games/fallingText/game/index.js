@@ -6,7 +6,7 @@ import CreateScorePopup from "../../../../components/createScorePopup"
 import WordListPopup from "../../../../components/wordListPopup"
 import Loading from "../../../../components/loading"
 import OptionSelector from "../../../../components/optionSelector"
-import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMMING_SOON } from "../constants"
+import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMING_SOON } from "../constants"
 
 const GAME_QUERY = gql`
   query FallingTextGame($topicCode: String!, $levelCode: String! ) {
@@ -36,10 +36,10 @@ function GameOverview (props) {
           <OptionSelector handleOptionChanged={props.handleOptionChanged('levelCode')} currentOption={props.levelCode} options={LEVELS} />
           <div className='mt-1'>
           { 
-            LEVELS_COMMING_SOON.map((v, i) => {
+            LEVELS_COMING_SOON.map((v, i) => {
               return (
                 <React.Fragment key={i}>
-                  <button className='btn btn-sm btn-primary' title='comming soon!' disabled>{v}</button>{' '}
+                  <button className='btn btn-sm btn-primary' title='coming soon!' disabled>{v}</button>{' '}
                 </React.Fragment>
               )
             })
@@ -50,9 +50,9 @@ function GameOverview (props) {
           <h5>Select a Game Input Type</h5>
           <OptionSelector handleOptionChanged={props.handleOptionChanged('inputTypeCode')} currentOption={props.inputTypeCode} options={INPUT_TYPES} />
         </div>
-        <p>Sudy the <button className="btn btn-link p-0" onClick={props.handleOpenWordList}>game word list</button> before you start!</p>
-        <div className="mt-5"> 
-          <button className="btn btn-primary btn-lg" onClick={props.handlePlayClick}>Play Now!</button>
+        <p>Study the <button className="btn btn-link p-0" onClick={props.handleOpenWordList}>game word list</button> before you start!</p>
+        <div className="mt-4"> 
+          <button className="btn btn-success btn-lg" onClick={props.handlePlayClick}>Play Now!</button>
         </div>
       </div>
     </div>

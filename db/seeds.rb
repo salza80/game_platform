@@ -454,13 +454,11 @@ NOUNS.each do | noun |
 	n.save!	
 end
 
-
-
 VERBS = [
 	{ infinitive:"sein", ich:"bin", du: "bist", es: "sind", ihr: "seid", wir: "sind", Sie: "sind", english: "to be", Level: "A1", regular: "0", past_participle: "gewesen", auxiliary_verb: "sein"},
 	{ infinitive:"werden", ich:"werde", du: "wirst", es: "wird", ihr: "werdet", wir: "werden", Sie: "werden", english: "to become", Level: "A2", regular: "0", past_participle: "geworden", auxiliary_verb: "sein"},
 	{ infinitive:"haben", ich:"habe", du: "hast", es: "hat", ihr: "habt", wir: "haben", Sie: "haben", english: "to have", Level: "A1", regular: "0", past_participle: "gehabt", auxiliary_verb: "haben"},
-	{ infinitive:"können", ich:"kann", du: "kannst", es: "kann", ihr: "könnt ", wir: "können ", Sie: "können ", english: "to can\n to be able to", Level: "A1", regular: "0", past_participle: "gekonnt", auxiliary_verb: "haben"},
+	{ infinitive:"können", ich:"kann", du: "kannst", es: "kann", ihr: "könnt", wir: "können", Sie: "können", english: "to can\n to be able to", Level: "A1", regular: "0", past_participle: "gekonnt", auxiliary_verb: "haben"},
 	{ infinitive:"müssen", ich:"muss", du: "musst", es: "muss", ihr: "müsst", wir: "müssen", Sie: "müssen", english: "to must", Level: "A1", regular: "0", past_participle: "gemusst", auxiliary_verb: "haben"},
 	{ infinitive:"geben", ich:"gebe", du: "gibst", es: "gibt", ihr: "gebt", wir: "geben", Sie: "geben", english: "to give", Level: "A1", regular: "0", past_participle: "gegeben", auxiliary_verb: "haben"},
 	{ infinitive:"sollen", ich:"soll", du: "sollst", es: "soll", ihr: "sollt", wir: "sollen", Sie: "sollen", english: "to should", Level: "A1", regular: "0", past_participle: "gesollt", auxiliary_verb: "haben"},
@@ -516,7 +514,7 @@ VERBS = [
 	{ infinitive:"ankreuzen", ich:"kreuze an", du: "kreuzt an", es: "kreuzt an", ihr: "kreuzt an", wir: "kreuzen an", Sie: "kreuzen an", english: "to mark with a cross", Level: "A1", regular: "1", past_participle: "angekreuzt", auxiliary_verb: "haben"},
 	{ infinitive:"aufstehen", ich:"stehe auf", du: "stehst auf", es: "steht auf", ihr: "steht auf", wir: "stehen auf", Sie: "stehen auf", english: "to get up", Level: "A1", regular: "1", past_participle: "aufgestanden", auxiliary_verb: "sein"},
 	{ infinitive:"ausfüllen", ich:"fülle aus", du: "füllst aus", es: "füllt aus", ihr: "füllt aus", wir: "füllen aus", Sie: "füllen aus", english: "to complete", Level: "A1", regular: "1", past_participle: "ausgefüllt", auxiliary_verb: "haben"},
-	{ infinitive:"aussehen", ich:"sehe aus", du: "siest aus", es: "siet aus", ihr: "seht aus", wir: "sehen aus", Sie: "aussehen", english: "to look", Level: "A1", regular: "0", past_participle: "ausgesehen", auxiliary_verb: "sein"},
+	{ infinitive:"aussehen", ich:"sehe aus", du: "siehst aus", es: "sieht aus", ihr: "seht aus", wir: "sehen aus", Sie: "aussehen", english: "to look", Level: "A1", regular: "0", past_participle: "ausgesehen", auxiliary_verb: "sein"},
 	{ infinitive:"aussteigen", ich:"steige aus", du: "steigst aus", es: "steigt aus", ihr: "steigt aus", wir: "steigen aus", Sie: "aussteigen", english: "to get out", Level: "A1", regular: "0", past_participle: "ausgestiegen ", auxiliary_verb: "sein"},
 	{ infinitive:"bedeuten", ich:"bedeute", du: "bedeutest", es: "bedeutet", ihr: "bedeutet", wir: "bedeuten", Sie: "bedeuten", english: "to mean", Level: "A1", regular: "1", past_participle: "bedeutete", auxiliary_verb: "haben"},
 	{ infinitive:"beginnen", ich:"beginne", du: "beginnst", es: "beginnt", ihr: "beginnt", wir: "beginnen", Sie: "beginnen", english: "to begin", Level: "A1", regular: "0", past_participle: "begonnen", auxiliary_verb: "haben"},
@@ -528,7 +526,7 @@ VERBS = [
 	{ infinitive:"drucken", ich:"drucke", du: "druckst", es: "druckt", ihr: "druckt", wir: "drucken", Sie: "drucken", english: "to press", Level: "A1", regular: "1", past_participle: "gedruckt", auxiliary_verb: "haben"},
 	{ infinitive:"einkaufen", ich:"kaufe ein", du: "kaufst ein", es: "kauft ein", ihr: "kauft ein", wir: "kaufen ein", Sie: "einkaufen", english: "to show", Level: "A1", regular: "1", past_participle: "eingekauft", auxiliary_verb: "haben"},
 	{ infinitive:"einladen", ich:"lade ein", du: "lädst ein", es: "lädt ein", ihr: "ladet ein", wir: "laden ein", Sie: "einladen", english: "to invite", Level: "A1", regular: "0", past_participle: "eingeladen", auxiliary_verb: "haben"},
-	{ infinitive:"empfehlen", ich:"empfehle", du: "empfiehlst", es: "empfiehlt", ihr: "empfehlt", wir: "empfehlen", Sie: "empfehlen", english: "to recommend", Level: "A1", regular: "0", past_participle: "empfohlen", auxiliary_verb: "haben"},
+	{ infinitive:"empfehlen", ich:"empfehle", du: "empfiehlst", es: "empfiehlt", ihr: "empfehlt", wir: "empfehlen", Sie: "empfehlen", english: "to recommend", Level: "A2", regular: "0", past_participle: "empfohlen", auxiliary_verb: "haben"},
 	{ infinitive:"einsteigen", ich:"steige ein", du: "steigst ein", es: "steigt ein", ihr: "steigt ein", wir: "steigen ein", Sie: "einsteigen", english: "to enter", Level: "A1", regular: "0", past_participle: "geingestiegen", auxiliary_verb: "sein"},
 	{ infinitive:"fliegen", ich:"fliege", du: "fliegst", es: "fliegt", ihr: "fliegt", wir: "fliegen", Sie: "fliegen", english: "to fly", Level: "A1", regular: "0", past_participle: "geflogen", auxiliary_verb: "sein"},
 	{ infinitive:"grillen", ich:"grille", du: "grillst", es: "grillt", ihr: "grillt", wir: "grillen", Sie: "grillen", english: "to grill", Level: "A1", regular: "1", past_participle: "gegrillt", auxiliary_verb: "haben"},
@@ -551,8 +549,8 @@ VERBS = [
 	{ infinitive:"vorstellen", ich:"stelle vor", du: "stellst vor", es: "stellt vor", ihr: "stellt vor", wir: "stellen vor", Sie: "vorstellen", english: "to introduce", Level: "A1", regular: "1", past_participle: "vorgestellt", auxiliary_verb: "haben"},
 	{ infinitive:"vorschlagen", ich:"schlage", du: "schlägst", es: "schlägt ", ihr: "schlagt ", wir: "schlagen ", Sie: "vorschlagen", english: "to propose", Level: "A1", regular: "0", past_participle: "vorgeschlagen", auxiliary_verb: "haben"},
 	{ infinitive:"wandern", ich:"wande", du: "wanderst", es: "wandert", ihr: "wandert", wir: "wandern", Sie: "wandern", english: "to hike", Level: "A1", regular: "1", past_participle: "gewandert", auxiliary_verb: "sein"},
-	{ infinitive:"waschen", ich:"wasche", du: "wäschst", es: "wäscht ", ihr: "wascht ", wir: "waschen", Sie: "waschen", english: "to wash", Level: "A1", regular: "0", past_participle: "gewaschen", auxiliary_verb: "haben"},
-	{ infinitive:"wohnen", ich:"wohne", du: "wohnst", es: "wohnt", ihr: "wohnen", wir: "wohnt", Sie: "wohnen", english: "to live", Level: "A1", regular: "1", past_participle: "gewohnt", auxiliary_verb: "haben"},
+	{ infinitive:"waschen", ich:"wasche", du: "wäschst", es: "wäscht", ihr: "wascht", wir: "waschen", Sie: "waschen", english: "to wash", Level: "A1", regular: "0", past_participle: "gewaschen", auxiliary_verb: "haben"},
+	{ infinitive:"wohnen", ich:"wohne", du: "wohnst", es: "wohnt", ihr: "wohnt", wir: "wohnen", Sie: "wohnen", english: "to live", Level: "A1", regular: "1", past_participle: "gewohnt", auxiliary_verb: "haben"},
 	{ infinitive:"abgeben", ich:"gebe ab", du: "gibst ab", es: "gibt ab", ihr: "gebt ab", wir: "geben ab", Sie: "abgeben", english: "to submit", Level: "A2", regular: "0", past_participle: "abgegeben", auxiliary_verb: "haben"},
 	{ infinitive:"abschließen", ich:"schließe ab", du: "schließt ab", es: "schließt ab", ihr: "schließt ab", wir: "schließen ab", Sie: "abschließen", english: "to lock", Level: "A2", regular: "0", past_participle: "abgeschlossen", auxiliary_verb: "haben"},
 	{ infinitive:"achtgeben", ich:"gebe acht", du: "gibst acht", es: "gibt acht", ihr: "gebt acht", wir: "geben acht", Sie: "achtgeben", english: "to be careful", Level: "C1", regular: "0", past_participle: "achtgegeben", auxiliary_verb: "haben"},

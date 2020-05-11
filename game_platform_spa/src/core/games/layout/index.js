@@ -27,12 +27,12 @@ function withGameLayout(defaultOptions, GameSidebarComponent, GameComponent) {
 
       return (
           <div className="row">
-            <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+            <nav className="col-lg-4 col-xl-3 d-none d-lg-block bg-light sidebar">
               <div className="sidebar-sticky">
                 <GameSidebarComponent {...gameOptions} scoreCode={scoreCode} handleOptionChanged={handleOptionChanged} />
               </div>
             </nav>
-            <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <main role="main" className="col-lg-8 ml-sm-auto col-xl-9 px-4">
                 <GameComponent {...gameOptions} scoreCode={scoreCode} handleOptionChanged={handleOptionChanged}/>
             </main>
           </div>

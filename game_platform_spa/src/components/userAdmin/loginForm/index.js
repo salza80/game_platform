@@ -18,7 +18,7 @@ const LOGIN = gql`
   }
 `;
 
-export default function LoginForm(props) {
+export default function LoginForm({redirectAfterLogin = true, ...props}) {
   const [validated, setValidated] = useState(false);
   const { refetch } = useQuery(ME);
   const history = useHistory();
@@ -27,6 +27,7 @@ export default function LoginForm(props) {
     if (data.login) {
       localStorage.setItem('token', data.login.token)
       refetch().then(() => {
+          if (redirectAfterLogin)
           history.push("/")
         }).catch (e => {
           console.log(e)

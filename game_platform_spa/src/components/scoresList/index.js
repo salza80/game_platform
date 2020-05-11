@@ -1,9 +1,11 @@
 import React from 'react';
 import { Tabs, Tab } from 'react-bootstrap'
+import './scoresList.scss'
 
 
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { ME } from '../userAdmin/queries'
 
 const SCORES_LIST = gql`
  query gameScores($gameCode: String!, $scoreCode: String! ) {
@@ -12,12 +14,26 @@ const SCORES_LIST = gql`
       scoreCode
       gameTitle
       highScoresWeek {
-        userName
+        user { 
+          id
+          displayName
+        }
         score
         createdAt
       }
       highScoresAllTime {
-        userName
+        user {
+          id
+          displayName
+        }
+        score
+        createdAt
+      }
+      myHighScores {
+        user {
+          id
+          displayName
+        }
         score
         createdAt
       }
@@ -27,7 +43,7 @@ const SCORES_LIST = gql`
 
 function Scores(props) {
   return (
-    <table className="table">
+    <table className="table table-striped table-sm">
       <thead>
         <tr>
           <th>#</th>
@@ -40,7 +56,12 @@ function Scores(props) {
         { props.scores.map((score, index ) => (
           <tr key={index}>
             <td>{index + 1}</td>
-            <td>{score.userName}</td>
+            <td >
+              {props.myId === score.user.id ?
+                <span className="badge badge-primary"> {score.user.displayName}</span>
+                : score.user.displayName
+              }
+            </td>
             <td>{score.score}</td>
             <td>{score.createdAt}</td>
           </tr>
@@ -51,21 +72,28 @@ function Scores(props) {
 }
 
 export default function ScoresList(props) {
+  const { loading: loadingMe, error: errorMe, data: dataMe } = useQuery(ME);
   const { loading, error, data } = useQuery(SCORES_LIST, { variables: { gameCode: props.gameCode, scoreCode: props.scoreCode } });
 
+  let myId = (!loadingMe && !errorMe && dataMe && dataMe.me) ? dataMe.me.id : null
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  let { highScoresAllTime, highScoresWeek } = data.gameScores
+  let { highScoresAllTime, highScoresWeek, myHighScores } = data.gameScores
   return (
-    <div>
+    <div className="score-list">
       <h5>High Scores</h5>
       <p>{props.scoreCode}</p>
-      <Tabs defaultActiveKey="week">
+      <Tabs defaultActiveKey="week" className="nav-pills nav-justified">
+        { myId && myHighScores &&
+          <Tab eventKey="me" title="My scores">
+            <Scores myId={myId} scores={myHighScores} />
+          </Tab>
+        }
         <Tab eventKey="week" title="This Week">
-          <Scores scores={highScoresWeek} />
+          <Scores myId={myId} scores={highScoresWeek} />
         </Tab>
         <Tab eventKey="alltime" title="All Time">
-           <Scores scores={highScoresAllTime} />
+           <Scores myId={myId} scores={highScoresAllTime} />
         </Tab>
       </Tabs>
     </div>
