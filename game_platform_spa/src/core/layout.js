@@ -5,6 +5,7 @@ import FallingText from './games/fallingText'
 import LoginForm from "../components/userAdmin/loginForm"
 import Logout from "../components/userAdmin/logout"
 import SignUpForm from "../components/userAdmin/signUpForm"
+import ResetPasswordForm from "../components/userAdmin/resetPasswordForm"
 import Profile from "../components/userAdmin/profile"
 import withAuthentication from "../components/userAdmin/withAuthentication"
 import { PrivateRoute } from "../components/"
@@ -14,6 +15,18 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
+function CenterPage(props) {
+  return (
+     <div className="row align-items-center justify-content-center">
+        <div className="col-lg-4 col">
+          <div className="jumbotron mt-3">
+          { props.children }
+          </div>
+         </div>
+      </div>
+    )
+}
 
 function LoggedOutNav() {
   return (
@@ -45,7 +58,7 @@ const NavBarLinks = withAuthentication(LoggedInNav, LoggedOutNav)
 function Layout () {
 return (
     <React.Fragment>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <nav className="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
        <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to='/'>German Games</Link>
         {/* <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
         <NavBarLinks />
@@ -63,16 +76,31 @@ return (
                 <Games />
               </Route>
               <Route exact path="/login">
-                <LoginForm />
+                <CenterPage>
+                  <LoginForm />
+                  <Link className="nav-link" to='/signup'>Signup</Link>
+                  <Link className="nav-link" to='/reset-password'>Forgotten password?</Link>
+                </CenterPage>
+              </Route>
+              <Route exact path="/reset-password">
+                <CenterPage>
+                  <ResetPasswordForm />
+                  <Link className="nav-link" to='/login'>Log in</Link>
+                </CenterPage>
               </Route>
               <Route exact path="/logout">
-                <Logout />
+                  <Logout />
               </Route>
               <Route exact path="/signup">
-                <SignUpForm />
+                <CenterPage>
+                  <SignUpForm />
+                  <Link className="nav-link" to='/login'>Login</Link>
+                </CenterPage>
               </Route>
               <PrivateRoute exact path="/profile">
-                <Profile />
+                <CenterPage>
+                  <Profile />
+                </CenterPage>
               </PrivateRoute>
               <Route path="/games/falling-text">
                 <FallingText />

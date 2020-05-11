@@ -56,6 +56,7 @@ export default function SignUpForm() {
   };
   return (
     <div>
+      <h3>Create an Account</h3>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
@@ -86,7 +87,7 @@ export default function SignUpForm() {
               </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit" disabled={submitting ? true : false}>
-            Signup
+            Sign Up
           </Button>
       </Form>
       <FormErrors error={signUpError} />

@@ -22,6 +22,7 @@ gem 'activeadmin'
 
 gem 'devise'
 gem 'devise-jwt', '~> 0.6.0'
+gem 'rails-static-router'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Alert } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -59,7 +59,7 @@ export default function UpdateUserForm(props) {
             Update
           </Button>
       </Form>
-      <FormErrors errors={updateError} success={updateResult ? true : false} />
+      <FormErrors error={updateError} success={updateResult ? true : false} />
     </div>
   
   );

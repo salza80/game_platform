@@ -7,5 +7,6 @@ module Types
     field :signUp, mutation: Mutations::User::SignUp
     field :updateUser, mutation: Mutations::User::UpdateUser
     field :updateUserPassword, mutation: Mutations::User::UpdateUserPassword
+    field :sendResetPasswordInstructions, mutation: Mutations::User::SendResetPasswordInstructions
   end
 end

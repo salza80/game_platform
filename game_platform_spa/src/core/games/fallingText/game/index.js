@@ -80,6 +80,7 @@ function Game(props) {
   window.gameConfig = {
     start_text: `${props.topicCode} Level: ${props.levelCode}`,
     words: data.fallingTextGame.words,
+    input_type: props.inputTypeCode,
     game_over_callback: handleShowSaveScore
   }
 
