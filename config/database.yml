@@ -82,4 +82,4 @@ production:
   <<: *default
   database: game_platform_production
   username: game_platform
-  password: <%= ENV['GAME_PLATFORM_DATABASE_PASSWORD'] %>
+  password: <%= Rails.application.credentials.postgres_password %>
