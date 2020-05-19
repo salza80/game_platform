@@ -13,7 +13,8 @@ import './layout.scss'
 import {
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 function CenterPage(props) {
@@ -70,10 +71,10 @@ return (
                 <About />
               </Route>
               <Route exact path="/">
-                <Games />
+               <Redirect to="/games/falling-text" />
               </Route>
               <Route exact path="/games">
-                <Games />
+                <Redirect to="/games/falling-text" />
               </Route>
               <Route exact path="/login">
                 <CenterPage>
