@@ -33,7 +33,7 @@ function GameOverview (props) {
         <p>{props.gameDesc}</p>
          <div className="border border-primary rounded mt-2 mb-4 p-2">
           <h5>Select a Level</h5>
-          <OptionSelector handleOptionChanged={props.handleOptionChanged('levelCode')} currentOption={props.levelCode} options={LEVELS} />
+          <OptionSelector handleOptionChanged={props.handleOptionChanged('levelCode')} currentOption={props.gameOptions.levelCode} options={LEVELS} />
           <div className='mt-1'>
           { 
             LEVELS_COMING_SOON.map((v, i) => {
@@ -46,9 +46,9 @@ function GameOverview (props) {
           }
           </div>
           <h5>Select a Topic</h5>
-          <OptionSelector handleOptionChanged={props.handleOptionChanged('topicCode')} currentOption={props.topicCode} options={TOPICS} />
+          <OptionSelector handleOptionChanged={props.handleOptionChanged('topicCode')} currentOption={props.gameOptions.topicCode} options={TOPICS} />
           <h5>Select a Game Input Type</h5>
-          <OptionSelector handleOptionChanged={props.handleOptionChanged('inputTypeCode')} currentOption={props.inputTypeCode} options={INPUT_TYPES} />
+          <OptionSelector handleOptionChanged={props.handleOptionChanged('inputTypeCode')} currentOption={props.gameOptions.inputTypeCode} options={INPUT_TYPES} />
         </div>
         <p>Study the <button className="btn btn-link p-0" onClick={props.handleOpenWordList}>game word list</button> before you start!</p>
         <div className="mt-4"> 
@@ -60,12 +60,12 @@ function GameOverview (props) {
 }
 
 function Game(props) {
-  const [showSaveScore, setShowScore] = useState(false);
+  const [showSaveScore, setShowSaveScore] = useState(false);
   const [showGame, setShowGame] = useState(false)
   const [showWordList, setShowWordList] = useState(false)
   const [score, setScore] = useState(0);
 
-  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: props.topicCode, levelCode: props.levelCode } });
+  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: props.gameOptions.topicCode, levelCode: props.gameOptions.levelCode } });
 
   if (loading) return <Loading />
   if (error) return <p>Error :(</p>;
@@ -76,10 +76,14 @@ function Game(props) {
     }
   }
 
-  const handleCloseSaveScore = () => setShowScore(false);
+  const handleCloseSaveScore = () => { 
+    setShowSaveScore(false)
+    setScore(0)
+  }
+  
   const handleShowSaveScore = (data) => {
     setScore(data.score)
-    setShowScore(true)
+    setShowSaveScore(true)
     setShowGame(false)
   }
 
@@ -89,21 +93,21 @@ function Game(props) {
   const handlePlayClick = () => setShowGame(true);
 
   window.gameConfig = {
-    start_text: `${props.topicCode} Level: ${props.levelCode}`,
+    start_text: `${props.gameOptions.topicCode} Level: ${props.gameOptions.levelCode}`,
     words: data.fallingTextGame.words,
-    input_type: props.inputTypeCode,
+    input_type: props.gameOptions.inputTypeCode,
     game_over_callback: handleShowSaveScore
   }
 
   return (
     <React.Fragment>
       { showGame && 
-        <iframe id="gameIframe" title="falling-text" key={`${props.scoreCode}`} src="/konjugator/index.html" className="game-box"></iframe>
+        <iframe id="gameIframe" title="falling-text" key={`${props.gameOptions}`} src="/konjugator/index.html" className="game-box"></iframe>
       }
       { !showGame &&
         <GameOverview {...data.fallingTextGame} {...props} handlePlayClick={handlePlayClick} handleOpenWordList={handleOpenWordList} handleOptionChanged={handleOptionChanged}/>
       }
-      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} scoreCode={props.scoreCode} show={showSaveScore} />
+      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} gameOptions={props.gameOptions} show={showSaveScore} />
       <WordListPopup handleClose={handleCloseWordList} show={showWordList} words={data.fallingTextGame.words} />
     </React.Fragment>
   )

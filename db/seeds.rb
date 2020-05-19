@@ -28,7 +28,6 @@ LanguageLevel.find_or_create_by!(level_code: 'B2')
 LanguageLevel.find_or_create_by!(level_code: 'C1')
 
 Game.find_or_create_by!(game_code: 'falling_text') do | g |
-	g.score_code_pattern = '#topicId_#levelId'
 	g.game_title = 'Falling Text'
 	g.game_short_desc = 'Practice your german with a falling text game.'
 	g.game_desc = 'Shoot down the words as they appear, by typing the answer before they hit the blocks. When all the blocks are smashed the game is over!' /

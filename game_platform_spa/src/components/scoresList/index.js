@@ -8,11 +8,14 @@ import { gql } from 'apollo-boost';
 import { ME } from '../userAdmin/queries'
 
 const SCORES_LIST = gql`
- query gameScores($gameCode: String!, $scoreCode: String! ) {
-    gameScores(gameCode: $gameCode, scoreCode: $scoreCode) {
+ query gameScores($gameCode: String!, $gameOptions: [GameOptionInput!]! ) {
+    gameScores(gameCode: $gameCode, gameOptions: $gameOptions) {
       gameCode
-      scoreCode
       gameTitle
+      gameOptions {
+        code
+        value
+      }
       highScoresWeek {
         user { 
           id
@@ -73,16 +76,21 @@ function Scores(props) {
 
 export default function ScoresList(props) {
   const { loading: loadingMe, error: errorMe, data: dataMe } = useQuery(ME);
-  const { loading, error, data } = useQuery(SCORES_LIST, { variables: { gameCode: props.gameCode, scoreCode: props.scoreCode } });
+
+  const gameOptionsArray = Object.keys(props.gameOptions).map((key)=>({code: key, value: props.gameOptions[key]}))
+
+  const { loading, error, data } = useQuery(SCORES_LIST, { variables: { gameCode: props.gameCode, gameOptions: gameOptionsArray } });
 
   let myId = (!loadingMe && !errorMe && dataMe && dataMe.me) ? dataMe.me.id : null
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  let { highScoresAllTime, highScoresWeek, myHighScores } = data.gameScores
+  let { highScoresAllTime, highScoresWeek, myHighScores, gameOptions } = data.gameScores
   return (
     <div className="score-list">
       <h5>High Scores</h5>
-      <p>{props.scoreCode}</p>
+      {gameOptions.map((option)=>(
+        <span key={`${option.code}${option.value}`}>{option.value} </span>
+      ))}
       <Tabs defaultActiveKey="week" className="nav-pills nav-justified">
         { myId && myHighScores &&
           <Tab eventKey="me" title="My scores">

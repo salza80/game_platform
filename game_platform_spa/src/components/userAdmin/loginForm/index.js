@@ -27,8 +27,7 @@ export default function LoginForm({redirectAfterLogin = true, ...props}) {
     if (data.login) {
       localStorage.setItem('token', data.login.token)
       refetch().then(() => {
-          if (redirectAfterLogin)
-          history.push("/")
+          if (redirectAfterLogin){history.push("/")}
         }).catch (e => {
           console.log(e)
         })

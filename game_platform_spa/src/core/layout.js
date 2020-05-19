@@ -1,5 +1,5 @@
 import React from 'react'
-import Games from './games'
+// import Games from './games'
 import About from './about'
 import FallingText from './games/fallingText'
 import LoginForm from "../components/userAdmin/loginForm"
@@ -60,7 +60,7 @@ function Layout () {
 return (
     <React.Fragment>
       <nav className="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-       <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to='/'>German Games</Link>
+       <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to='/'>German Games (Alpha)</Link>
         {/* <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
         <NavBarLinks />
 

@@ -20,7 +20,7 @@ const SIGN_UP = gql`
   }
 `;
 
-export default function SignUpForm() {
+export default function SignUpForm({redirectAfterSignup = true, ...props}) {
   const [validated, setValidated] = useState(false);
   const { refetch } = useQuery(ME);
   const history = useHistory();
@@ -29,8 +29,10 @@ export default function SignUpForm() {
     if (data.signUp) {
       localStorage.setItem('token', data.signUp.token)
       refetch().then(() => {
-        history.push("/")
-      })
+        if (redirectAfterSignup){history.push("/")}
+      }).catch (e => {
+          console.log(e)
+        })
     }
   }
 

@@ -7,10 +7,10 @@ module Types
   
   class GameHighScores < Types::BaseObject
     field :game_code, String, null: false
-    field :score_code, String, null: false
     field :game_title, String, null: false
+    field :game_options, [Types::GameOption], null: true
     field :my_high_scores, [Types::GameScore], null: true
-    field :high_scores_week, [Types::GameScore], null: false
-    field :high_scores_all_time, [Types::GameScore], null: false
+    field :high_scores_week, [Types::GameScore], null: true
+    field :high_scores_all_time, [Types::GameScore], null: true
   end
 end

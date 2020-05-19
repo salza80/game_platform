@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap'
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ME } from '../userAdmin/queries.js'
 import LoginForm from '../userAdmin/loginForm'
+import SignUpForm from '../userAdmin/signUpForm'
 
 const CREATE_SCORE = gql`
-  mutation createScore($gameCode: String!, $scoreCode: String!, $score: Int! ) {
-    createScore(gameCode: $gameCode, scoreCode: $scoreCode, score: $score)
+  mutation createScore($gameCode: String!, $gameOptions: [GameOptionInput!]!, $score: Int! ) {
+    createScore(gameCode: $gameCode, gameOptions: $gameOptions, score: $score)
   }
 `;
 
 export default function CreateScorePopup(props) {
+  const [showCreateUser, setShowCreateUser] = useState(false)
   const [createScore] = useMutation(CREATE_SCORE, {
     refetchQueries: ["gameScores"]
   });
@@ -22,13 +24,16 @@ export default function CreateScorePopup(props) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  const switchToCreateUser = () => {setShowCreateUser(true)}
+  const switchToLogin = () => {setShowCreateUser(false)}
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const gameOptionsArray = Object.keys(props.gameOptions).map((key)=>({code: key, value: props.gameOptions[key]}))
       createScore({ variables: {
         gameCode: props.gameCode,
-        scoreCode: props.scoreCode,
+        gameOptions: gameOptionsArray,
         score: props.score
       }})
       .catch (e => {
@@ -50,10 +55,18 @@ export default function CreateScorePopup(props) {
               Save Score!
             </Button>
           }
-          { (!data || !data.me) && 
+          { (!data || !data.me) && !showCreateUser &&
             <div>
               Login to save your score!
               <LoginForm redirectAfterLogin={false} />
+              <Button variant="warning" onClick={switchToCreateUser}>No account? Create a new one!</Button>
+            </div>
+          }
+          { (!data || !data.me) && showCreateUser &&
+            <div>
+              Login to save your score!
+              <SignUpForm redirectAfterLogin={false} />
+              <Button  variant="warning" onClick={switchToLogin}>Already have an account? Login!</Button>
             </div>
           }
           

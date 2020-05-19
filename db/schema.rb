@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_11_141722) do
+ActiveRecord::Schema.define(version: 2020_05_19_132152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2020_05_11_141722) do
 
   create_table "games", force: :cascade do |t|
     t.string "game_code"
-    t.string "score_code_pattern"
     t.string "game_title"
     t.string "game_desc"
     t.datetime "created_at", precision: 6, null: false
@@ -82,13 +81,14 @@ ActiveRecord::Schema.define(version: 2020_05_11_141722) do
   end
 
   create_table "scores", force: :cascade do |t|
-    t.string "score_code"
     t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "game_id"
     t.bigint "user_id"
+    t.jsonb "game_options", default: "{}"
     t.index ["game_id"], name: "index_scores_on_game_id"
+    t.index ["game_options"], name: "index_scores_on_game_options", using: :gin
     t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
