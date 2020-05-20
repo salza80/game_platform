@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
+  host: localhost
   database: game_platform_production
   username: game_platform
   password: <%= Rails.application.credentials.postgres_password %>

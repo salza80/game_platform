@@ -14,7 +14,6 @@ set :deploy_to, "/home/deploy/#{fetch :application}"
 
 set :rvm_custom_path, "/usr/share/rvm"
 
-
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -62,6 +61,21 @@ namespace :deploy do
     end
   end
 end
+
+# before "deploy:assets:precompile", "deploy:yarn_install"
+# namespace :deploy do
+#   desc 'Run rake yarn:install'
+#   task :yarn_install do
+#     on roles(:web) do
+#     	execute('[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"')
+#       # within release_path do
+#       #   execute("cd #{release_path} && . /home/deploy/.nvm/nvm.sh && nvm list && nvm use v10.16.0 && node -v")
+#       # end
+#     end
+#   end
+# end
+
+
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 append :linked_files, 'config/database.yml', 'config/credentials.yml.enc'
