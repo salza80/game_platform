@@ -30,10 +30,10 @@ LanguageLevel.find_or_create_by!(level_code: 'C1')
 Game.find_or_create_by!(game_code: 'falling_text') do | g |
 	g.game_title = 'Falling Text'
 	g.game_short_desc = 'Practice your german with a falling text game.'
-	g.game_desc = 'Shoot down the words as they appear, by typing the answer before they hit the blocks. When all the blocks are smashed the game is over!' /
-		'  Score extra points by shooting down the bonus words that fly horizontally across the screen. With each level progression, you will score more points,' / 
-		' so try to protect your blocks as long as possible to achieve the highest scores!. You can choose between practising vocabulary or conjugation.' / 
-		' For Vocabulary the text displayed will be in English, type in the German translation to shoot the word down. For conjugation practice, ' /
+	g.game_desc = 'Shoot down the words as they appear, by typing the answer before they hit the blocks. When all the blocks are smashed the game is over!' +
+		'  Score extra points by shooting down the bonus words that fly horizontally across the screen. With each level progression, you will score more points,' +
+		' so try to protect your blocks as long as possible to achieve the highest scores!. You can choose between practising vocabulary or conjugation.' +
+		' For Vocabulary the text displayed will be in English, type in the German translation to shoot the word down. For conjugation practice, ' +
 		'a verb will be displayed in the infinitive, type it in the corresponding conjugated form to shoot the words.'
 end
 

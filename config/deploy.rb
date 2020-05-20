@@ -62,18 +62,18 @@ namespace :deploy do
   end
 end
 
-# before "deploy:assets:precompile", "deploy:yarn_install"
-# namespace :deploy do
-#   desc 'Run rake yarn:install'
-#   task :yarn_install do
-#     on roles(:web) do
-#     	execute('[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"')
-#       # within release_path do
-#       #   execute("cd #{release_path} && . /home/deploy/.nvm/nvm.sh && nvm list && nvm use v10.16.0 && node -v")
-#       # end
-#     end
-#   end
-# end
+after "deploy:assets:precompile", "deploy:spa_build"
+namespace :deploy do
+  desc 'Run rake yarn:install'
+  task :spa_build do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path}/game_platform_spa && npm install && SKIP_PREFLIGHT_CHECK=true npm run build")
+        execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
+      end
+    end
+  end
+end
 
 
 
