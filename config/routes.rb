@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  root :to => static('/spa/index.html')
+  root :to => static('/spa/index.html'), constraints: lambda { | request |
+    !request.xhr? && request.format.html?
+  }
 
   devise_for :users, only: [:confirmations, :passwords], controllers: {
     confirmations: 'users/confirmations',
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
 
   
   # for react-router route all missing routes to the spa
-  get "*path", to: static('/spa/index.html')
-
+  get "*path", to: static('/spa/index.html'), constraints: lambda { | request |
+    !request.xhr? && request.format.html?
+  }
 end
