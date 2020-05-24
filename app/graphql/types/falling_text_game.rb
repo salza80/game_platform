@@ -3,6 +3,7 @@ module Types
     field :question, String, null: false
     field :answer, String, null: false
     field :tip, String, null: false
+    field :voice, String, null: false
   end
   
 	class FallingTextGame < Types::BaseObject

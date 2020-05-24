@@ -19,6 +19,7 @@ const GAME_QUERY = gql`
         question
         answer
         tip
+        voice
       }
     }
   }
@@ -102,7 +103,7 @@ function Game(props) {
   return (
     <React.Fragment>
       { showGame && 
-        <iframe id="gameIframe" title="falling-text" key={`${props.gameOptions}`} src="/spa/konjugator/index.html" className="game-box"></iframe>
+        <iframe id="gameIframe" title="falling-text" key={`${props.gameOptions}`} name={Date.now()} src="/spa/konjugator/index.html" className="game-box"></iframe>
       }
       { !showGame &&
         <GameOverview {...data.fallingTextGame} {...props} handlePlayClick={handlePlayClick} handleOpenWordList={handleOpenWordList} handleOptionChanged={handleOptionChanged}/>

@@ -135,7 +135,7 @@ NOUNS = [{ gender:"m", word: "Abend", english: "evening", level: "A1"},
 { gender:"m", word: "Grad", english: "degrees", level: "A1"},
 { gender:"f", word: "Großmutter", english: "grandmother", level: "A1"},
 { gender:"m", word: "Großvater", english: "grandfather", level: "A1"},
-{ gender:"f", word: "Groβeltern", english: "grandparents", level: "A1"},
+{ gender:"f", word: "Großeltern", english: "grandparents", level: "A1"},
 { gender:"f", word: "Grundschule", english: "primary school", level: "A2"},
 { gender:"n", word: "Gymnasium", english: "academic high school", level: "A2"},
 { gender:"f", word: "Haare", english: "hair", level: "A1"},
@@ -454,7 +454,7 @@ NOUNS.each do | noun |
 end
 
 VERBS = [
-	{ infinitive:"sein", ich:"bin", du: "bist", es: "sind", ihr: "seid", wir: "sind", Sie: "sind", english: "to be", Level: "A1", regular: "0", past_participle: "gewesen", auxiliary_verb: "sein"},
+	{ infinitive:"sein", ich:"bin", du: "bist", es: "ist", ihr: "seid", wir: "sind", Sie: "sind", english: "to be", Level: "A1", regular: "0", past_participle: "gewesen", auxiliary_verb: "sein"},
 	{ infinitive:"werden", ich:"werde", du: "wirst", es: "wird", ihr: "werdet", wir: "werden", Sie: "werden", english: "to become", Level: "A2", regular: "0", past_participle: "geworden", auxiliary_verb: "sein"},
 	{ infinitive:"haben", ich:"habe", du: "hast", es: "hat", ihr: "habt", wir: "haben", Sie: "haben", english: "to have", Level: "A1", regular: "0", past_participle: "gehabt", auxiliary_verb: "haben"},
 	{ infinitive:"können", ich:"kann", du: "kannst", es: "kann", ihr: "könnt", wir: "können", Sie: "können", english: "to can\n to be able to", Level: "A1", regular: "0", past_participle: "gekonnt", auxiliary_verb: "haben"},
@@ -546,7 +546,7 @@ VERBS = [
 	{ infinitive:"verstehen", ich:"verstehe", du: "verstehst", es: "versteht", ihr: "versteht", wir: "verstehen", Sie: "verstehen", english: "to understand", Level: "A1", regular: "0", past_participle: "verstanden", auxiliary_verb: "haben"},
 	{ infinitive:"verkaufen", ich:"verkaufe", du: "verkaufst", es: "verkauft", ihr: "verkauft", wir: "verkaufen", Sie: "verkaufen", english: "to sell", Level: "A1", regular: "1", past_participle: "gekauft", auxiliary_verb: "haben"},
 	{ infinitive:"vorstellen", ich:"stelle vor", du: "stellst vor", es: "stellt vor", ihr: "stellt vor", wir: "stellen vor", Sie: "vorstellen", english: "to introduce", Level: "A1", regular: "1", past_participle: "vorgestellt", auxiliary_verb: "haben"},
-	{ infinitive:"vorschlagen", ich:"schlage", du: "schlägst", es: "schlägt ", ihr: "schlagt ", wir: "schlagen ", Sie: "vorschlagen", english: "to propose", Level: "A1", regular: "0", past_participle: "vorgeschlagen", auxiliary_verb: "haben"},
+	{ infinitive:"vorschlagen", ich:"schlage vor", du: "schlägst vor", es: "schlägt vor", ihr: "schlagt vor", wir: "schlagen vor", Sie: "vorschlagen", english: "to propose", Level: "A1", regular: "0", past_participle: "vorgeschlagen", auxiliary_verb: "haben"},
 	{ infinitive:"wandern", ich:"wande", du: "wanderst", es: "wandert", ihr: "wandert", wir: "wandern", Sie: "wandern", english: "to hike", Level: "A1", regular: "1", past_participle: "gewandert", auxiliary_verb: "sein"},
 	{ infinitive:"waschen", ich:"wasche", du: "wäschst", es: "wäscht", ihr: "wascht", wir: "waschen", Sie: "waschen", english: "to wash", Level: "A1", regular: "0", past_participle: "gewaschen", auxiliary_verb: "haben"},
 	{ infinitive:"wohnen", ich:"wohne", du: "wohnst", es: "wohnt", ihr: "wohnt", wir: "wohnen", Sie: "wohnen", english: "to live", Level: "A1", regular: "1", past_participle: "gewohnt", auxiliary_verb: "haben"},
