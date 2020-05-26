@@ -70,6 +70,7 @@ namespace :deploy do
       within release_path do
         execute("cd #{release_path}/game_platform_spa && npm install && SKIP_PREFLIGHT_CHECK=true npm run build")
         execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
+        execute("rm -rf #{release_path}/game_platform/game_platform_spa")
       end
     end
   end
