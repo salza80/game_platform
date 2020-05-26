@@ -65,8 +65,8 @@ export default function CreateScorePopup(props) {
           { (!data || !data.me) && showCreateUser &&
             <div>
               Login to save your score!
-              <SignUpForm redirectAfterLogin={false} />
-              <Button  variant="warning" onClick={switchToLogin}>Already have an account? Login!</Button>
+              <SignUpForm redirectAfterSignup={false} />
+              <Button variant="warning" onClick={switchToLogin}>Already have an account? Login!</Button>
             </div>
           }
           
