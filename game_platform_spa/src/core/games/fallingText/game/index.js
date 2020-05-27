@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import CreateScorePopup from "../../../../components/createScorePopup"
 import WordListPopup from "../../../../components/wordListPopup"
-import Loading from "../../../../components/loading"
 import OptionSelector from "../../../../components/optionSelector"
 import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMING_SOON } from "../constants"
 

@@ -1,10 +1,19 @@
 import React, { useState }  from 'react';
-import './layout.scss'
-
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import Loading from "../../../components/loading"
+import ScoresList from "../../../components/scoresList"
+
+function GameScores (props) {
+  return (
+    <div>
+      <div className="jumbotron">
+        <ScoresList gameCode={props.gameDetails.gameCode} gameOptions={props.gameOptions}> </ScoresList>
+      </div>
+    </div>
+  )
+}
 
 const GAME_QUERY = gql`
   query Game($gameCode: String! ) {
@@ -18,7 +27,7 @@ const GAME_QUERY = gql`
 `
 
 //HOC for a game layout
-function withGameLayout(gameCode, defaultOptions, GameSidebarComponent, GameComponent) {
+function withGameLayout(gameCode, defaultOptions, GameComponent) {
 
   return (
     function GameLayout () {
@@ -35,14 +44,12 @@ function withGameLayout(gameCode, defaultOptions, GameSidebarComponent, GameComp
       }
       return (
           <div className="row">
-            <nav className="col-lg-4 col-xl-3 d-none d-lg-block bg-light sidebar">
-              <div className="sidebar-sticky">
-                <GameSidebarComponent gameDetails={data.gameDetails} gameOptions={gameOptions} handleOptionChanged={handleOptionChanged} />
-              </div>
-            </nav>
-            <main role="main" className="col-lg-8 ml-sm-auto col-xl-9 px-4">
-                <GameComponent gameDetails={data.gameDetails} gameOptions={gameOptions} handleOptionChanged={handleOptionChanged}/>
+            <main role="main" className="col-lg-8 col-xl-9 px-0 min-vh-100">
+              <GameComponent gameDetails={data.gameDetails} gameOptions={gameOptions} handleOptionChanged={handleOptionChanged}/>
             </main>
+            <nav className="col-lg-4 col-xl-3 bg-light px-1 min-vh-100">
+              <GameScores gameDetails={data.gameDetails} gameOptions={gameOptions} handleOptionChanged={handleOptionChanged} />
+            </nav>
           </div>
         )
     }

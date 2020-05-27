@@ -30,8 +30,8 @@ front-end: cd game_platfrom_spa
 
 Backend - Rails 6 / Devise / graphql (ruby)
 
-Front-end development uses facebooks create-react-app, and proxies requests to 3001
-Tech: React/ApolloGraphql/react-router
+Front-end development uses facebooks create-react-app, and proxies requests to port 3001 in development.
+Technologies: React/ ApolloGraphql /react-router
 http://localhost:3000  for front-end app development
 http://localhost:3001/admin for active admin
 
