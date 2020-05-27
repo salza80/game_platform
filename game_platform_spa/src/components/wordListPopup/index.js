@@ -4,8 +4,6 @@ import { Modal, Button, Table } from 'react-bootstrap'
 
 
 export default function WordListPopup(props) {
-
-  
   return (
       <Modal show={props.show} onHide={props.handleClose} scrollable={true} animation={false}>
         <Modal.Header closeButton>

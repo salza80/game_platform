@@ -11,7 +11,6 @@ const SCORES_LIST = gql`
  query gameScores($gameCode: String!, $gameOptions: [GameOptionInput!]! ) {
     gameScores(gameCode: $gameCode, gameOptions: $gameOptions) {
       gameCode
-      gameTitle
       gameOptions {
         code
         value

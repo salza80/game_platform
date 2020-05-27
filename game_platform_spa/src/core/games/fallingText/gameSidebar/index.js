@@ -5,7 +5,7 @@ function GameSidebar (props) {
 	return (
     <div>
       <div className="jumbotron">
-        <ScoresList gameCode="falling_text" gameOptions={props.gameOptions}> </ScoresList>
+        <ScoresList gameCode={props.gameDetails.gameCode} gameOptions={props.gameOptions}> </ScoresList>
       </div>
     </div>
   )

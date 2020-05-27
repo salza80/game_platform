@@ -1,7 +1,7 @@
 module Queries
   class FallingTextGame < GraphQL::Schema::Resolver
 
-    type Types::FallingTextGame, null: false 
+    type Types::FallingTextGameType, null: false 
     description "A query to provide data for testing the falling text game"
     argument :topicCode, String, required: true
     argument :levelCode, String, required: true
@@ -38,10 +38,6 @@ module Queries
       end
  
       OpenStruct.new({
-        game_code: game.game_code,
-        game_title: game.game_title,
-        game_short_desc: game.game_short_desc,
-        game_desc: game.game_desc,
         words: words
       })
     end

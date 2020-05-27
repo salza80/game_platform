@@ -1,7 +1,7 @@
 module Queries
   class GameScores < GraphQL::Schema::Resolver
 
-    type Types::GameHighScores, null: false 
+    type Types::GameHighScoresType, null: false 
     description "A query to provide high score list for a game / score code"
     argument :gameCode, String, required: true
     argument :gameOptions, [Types::GameOptionInputType], required: true
@@ -43,7 +43,6 @@ module Queries
 
       OpenStruct.new ({
         :game_code => game_code,
-        :game_title => game.game_title,
         :game_options => game_options,
         :my_high_scores => myHighScores,
         :high_scores_week => highScoresWeek,

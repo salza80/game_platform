@@ -8,13 +8,9 @@ import Loading from "../../../../components/loading"
 import OptionSelector from "../../../../components/optionSelector"
 import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMING_SOON } from "../constants"
 
-const GAME_QUERY = gql`
+const GAME_DATA_QUERY = gql`
   query FallingTextGame($topicCode: String!, $levelCode: String! ) {
     fallingTextGame(topicCode: $topicCode, levelCode: $levelCode) {
-      gameCode
-      gameTitle
-      gameDesc
-      gameShortDesc
       words {
         question
         answer
@@ -26,6 +22,21 @@ const GAME_QUERY = gql`
 `
 
 function GameOverview (props) {
+  const [showWordList, setShowWordList] = useState(false)
+  const { loading, error, data } = useQuery(GAME_DATA_QUERY, { variables: { topicCode: props.gameOptions.topicCode, levelCode: props.gameOptions.levelCode } });
+
+  const handleCloseWordList = () => setShowWordList(false);
+  const handleOpenWordList = () => setShowWordList(true);
+
+  if (!loading && !error) {
+    window.gameConfig = {
+      start_text: `${props.gameOptions.topicCode} Level: ${props.gameOptions.levelCode}`,
+      words: data.fallingTextGame.words,
+      input_type: props.gameOptions.inputTypeCode,
+      game_over_callback: props.handleShowSaveScore
+    }
+  }
+
   return (
     <div className="jumbotron jumbotron-fluid">
       <div className="container text-center">
@@ -51,11 +62,12 @@ function GameOverview (props) {
           <h5>Select a Game Input Type</h5>
           <OptionSelector handleOptionChanged={props.handleOptionChanged('inputTypeCode')} currentOption={props.gameOptions.inputTypeCode} options={INPUT_TYPES} />
         </div>
-        <p>Study the <button className="btn btn-link p-0" onClick={props.handleOpenWordList}>game word list</button> before you start!</p>
+        <p>Study the <button className="btn btn-link p-0" disabled={ loading || error ? true : false} onClick={handleOpenWordList}>game word list</button> before you start!</p>
         <div className="mt-4"> 
-          <button className="btn btn-success btn-lg" onClick={props.handlePlayClick}>Play Now!</button>
+          <button className="btn btn-success btn-lg" disabled={ loading || error ? true : false} onClick={props.handlePlayClick}>Play Now!</button>
         </div>
       </div>
+      <WordListPopup handleClose={handleCloseWordList} show={showWordList} words={loading || error ? [] : data.fallingTextGame.words} />
     </div>
   )
 }
@@ -63,13 +75,10 @@ function GameOverview (props) {
 function Game(props) {
   const [showSaveScore, setShowSaveScore] = useState(false);
   const [showGame, setShowGame] = useState(false)
-  const [showWordList, setShowWordList] = useState(false)
+ 
   const [score, setScore] = useState(0);
 
-  const { loading, error, data } = useQuery(GAME_QUERY, { variables: { topicCode: props.gameOptions.topicCode, levelCode: props.gameOptions.levelCode } });
-
-  if (loading) return <Loading />
-  if (error) return <p>Error :(</p>;
+  const { gameDetails } = props
 
   const handleOptionChanged = (code) => {
     return (value) => {
@@ -88,17 +97,8 @@ function Game(props) {
     setShowGame(false)
   }
 
-  const handleCloseWordList = () => setShowWordList(false);
-  const handleOpenWordList = () => setShowWordList(true);
 
   const handlePlayClick = () => setShowGame(true);
-
-  window.gameConfig = {
-    start_text: `${props.gameOptions.topicCode} Level: ${props.gameOptions.levelCode}`,
-    words: data.fallingTextGame.words,
-    input_type: props.gameOptions.inputTypeCode,
-    game_over_callback: handleShowSaveScore
-  }
 
   return (
     <React.Fragment>
@@ -106,10 +106,10 @@ function Game(props) {
         <iframe id="gameIframe" title="falling-text" key={`${props.gameOptions}`} name={Date.now()} src="/spa/konjugator/index.html" className="game-box"></iframe>
       }
       { !showGame &&
-        <GameOverview {...data.fallingTextGame} {...props} handlePlayClick={handlePlayClick} handleOpenWordList={handleOpenWordList} handleOptionChanged={handleOptionChanged}/>
+        <GameOverview {...gameDetails} {...props} handlePlayClick={handlePlayClick} handleShowSaveScore={handleShowSaveScore} handleOptionChanged={handleOptionChanged}/>
       }
-      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={data.fallingTextGame.gameCode} gameOptions={props.gameOptions} show={showSaveScore} />
-      <WordListPopup handleClose={handleCloseWordList} show={showWordList} words={data.fallingTextGame.words} />
+      <CreateScorePopup handleClose={handleCloseSaveScore} score={score} gameCode={gameDetails.gameCode} gameOptions={props.gameOptions} show={showSaveScore} />
+      
     </React.Fragment>
   )
 }
