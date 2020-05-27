@@ -8,7 +8,9 @@ import SignUpForm from "../components/userAdmin/signUpForm"
 import ResetPasswordForm from "../components/userAdmin/resetPasswordForm"
 import Profile from "../components/userAdmin/profile"
 import withAuthentication from "../components/userAdmin/withAuthentication"
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { PrivateRoute } from "../components/"
+import logo from '../logo.png'
 import './layout.scss'
 import {
   Switch,
@@ -54,17 +56,42 @@ function LoggedInNav(props) {
     )
 }
 
-const NavBarLinks = withAuthentication(LoggedInNav, LoggedOutNav)
+const NonCollapsableNav = withAuthentication(LoggedInNav, LoggedOutNav)
+
+function CollapsableNav(props) {
+  return (
+    <React.Fragment>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <NavDropdown title="Games" id="collasible-nav-dropdown">
+            <NavDropdown.Item href="/games/falling-text" >Falling Text</NavDropdown.Item>
+            <NavDropdown.Divider />
+          </NavDropdown>
+          <Nav.Link href="/about">About</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </React.Fragment>
+  )
+}
 
 function Layout () {
 return (
     <React.Fragment>
-      <nav className="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-       <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to='/'>German Games (Alpha)</Link>
-        {/* <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
-        <NavBarLinks />
-
-      </nav>
+      <Navbar collapseOnSelect expand="xs" bg="dark" variant="dark" sticky="top" className='p-0 shadow'>
+        <Navbar.Brand href="/about">
+          <img
+            alt=""
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{' '}
+          Deutsch Games (Alpha)
+        </Navbar.Brand>
+        <NonCollapsableNav />
+        <CollapsableNav />
+      </Navbar>
       <div className="container-fluid main-content">
           <Switch>
               <Route exact path="/about">
@@ -109,7 +136,6 @@ return (
               <Route path="/games/falling-text">
                 <FallingText />
               </Route>
-              
           </Switch>
       </div>
     </React.Fragment>
