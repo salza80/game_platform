@@ -70,6 +70,9 @@ return (
               <Route exact path="/about">
                 <About />
               </Route>
+              <Route exact path="/spa">
+               <Redirect to="/" />
+              </Route>
               <Route exact path="/">
                <Redirect to="/games/falling-text" />
               </Route>
