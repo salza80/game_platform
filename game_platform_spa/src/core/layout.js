@@ -33,27 +33,21 @@ function CenterPage(props) {
 
 function LoggedOutNav() {
   return (
-      <ul className="navbar-nav px-3 ml-auto" >
-        <li className="nav-item text-nowrap">
-          <Link className="nav-link" to='/login'>login</Link>
-        </li>
-      </ul>
-    )
+    <Nav className="px-3 ml-auto">
+      <Nav.Link href="/login">login</Nav.Link>
+    </Nav>
+  )
 }
 
 function LoggedInNav(props) {
   return (
-      <React.Fragment>
-         <ul className="navbar-nav ml-auto px-3">
-          <li className="nav-item text-nowrap">
-            <Link className="nav-link" to='/profile'>{props.me && props.me.displayName ? props.me.displayName : 'Profile'}</Link>
-          </li>
-          <li className="nav-item text-nowrap">
-            <Link className="nav-link" to='/logout'>logout</Link>
-          </li>
-        </ul>
-      </React.Fragment>
-    )
+    <React.Fragment>
+      <Nav className="flex-row px-3 ml-auto">
+        <Nav.Link href="/profile">{props.me && props.me.displayName ? props.me.displayName : 'Profile'}</Nav.Link>
+        <Nav.Link className="pl-2" href="/logout">logout</Nav.Link>
+      </Nav>
+    </React.Fragment>
+  )
 }
 
 const NonCollapsableNav = withAuthentication(LoggedInNav, LoggedOutNav)
@@ -78,7 +72,7 @@ function CollapsableNav(props) {
 function Layout () {
 return (
     <React.Fragment>
-      <Navbar collapseOnSelect expand="xs" bg="dark" variant="dark" sticky="top" className='p-0 shadow'>
+      <Navbar collapseOnSelect expand="xs" bg="dark" variant="dark" sticky="top" className='p-0 pl-2 shadow'>
         <Navbar.Brand href="/about">
           <img
             alt=""
@@ -93,50 +87,50 @@ return (
         <CollapsableNav />
       </Navbar>
       <div className="container-fluid main-content">
-          <Switch>
-              <Route exact path="/about">
-                <About />
-              </Route>
-              <Route exact path="/spa">
-               <Redirect to="/" />
-              </Route>
-              <Route exact path="/">
-               <Redirect to="/games/falling-text" />
-              </Route>
-              <Route exact path="/games">
-                <Redirect to="/games/falling-text" />
-              </Route>
-              <Route exact path="/login">
-                <CenterPage>
-                  <LoginForm />
-                  <Link className="nav-link" to='/signup'>Signup</Link>
-                  <Link className="nav-link" to='/reset-password'>Forgotten password?</Link>
-                </CenterPage>
-              </Route>
-              <Route exact path="/reset-password">
-                <CenterPage>
-                  <ResetPasswordForm />
-                  <Link className="nav-link" to='/login'>Log in</Link>
-                </CenterPage>
-              </Route>
-              <Route exact path="/logout">
-                  <Logout />
-              </Route>
-              <Route exact path="/signup">
-                <CenterPage>
-                  <SignUpForm />
-                  <Link className="nav-link" to='/login'>Login</Link>
-                </CenterPage>
-              </Route>
-              <PrivateRoute exact path="/profile">
-                <CenterPage>
-                  <Profile />
-                </CenterPage>
-              </PrivateRoute>
-              <Route path="/games/falling-text">
-                <FallingText />
-              </Route>
-          </Switch>
+        <Switch>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="/spa">
+           <Redirect to="/" />
+          </Route>
+          <Route exact path="/">
+           <Redirect to="/games/falling-text" />
+          </Route>
+          <Route exact path="/games">
+            <Redirect to="/games/falling-text" />
+          </Route>
+          <Route exact path="/login">
+            <CenterPage>
+              <LoginForm />
+              <Link className="nav-link" to='/signup'>Signup</Link>
+              <Link className="nav-link" to='/reset-password'>Forgotten password?</Link>
+            </CenterPage>
+          </Route>
+          <Route exact path="/reset-password">
+            <CenterPage>
+              <ResetPasswordForm />
+              <Link className="nav-link" to='/login'>Log in</Link>
+            </CenterPage>
+          </Route>
+          <Route exact path="/logout">
+            <Logout />
+          </Route>
+          <Route exact path="/signup">
+            <CenterPage>
+              <SignUpForm />
+              <Link className="nav-link" to='/login'>Login</Link>
+            </CenterPage>
+          </Route>
+          <PrivateRoute exact path="/profile">
+            <CenterPage>
+              <Profile />
+            </CenterPage>
+          </PrivateRoute>
+          <Route path="/games/falling-text">
+            <FallingText />
+          </Route>
+        </Switch>
       </div>
     </React.Fragment>
   )
