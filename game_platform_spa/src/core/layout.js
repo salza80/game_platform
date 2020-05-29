@@ -7,7 +7,7 @@ import Logout from "../components/userAdmin/logout"
 import SignUpForm from "../components/userAdmin/signUpForm"
 import ResetPasswordForm from "../components/userAdmin/resetPasswordForm"
 import Profile from "../components/userAdmin/profile"
-import withAuthentication from "../components/userAdmin/withAuthentication"
+import { WithoutAuthentication, WithAuthentication } from "../components/userAdmin/authentication"
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { PrivateRoute } from "../components/"
 import logo from '../logo.png'
@@ -44,13 +44,30 @@ function LoggedInNav(props) {
     <React.Fragment>
       <Nav className="flex-row px-3 ml-auto">
         <Nav.Link href="/profile">{props.me && props.me.displayName ? props.me.displayName : 'Profile'}</Nav.Link>
-        <Nav.Link className="pl-2" href="/logout">logout</Nav.Link>
       </Nav>
     </React.Fragment>
   )
 }
 
-const NonCollapsableNav = withAuthentication(LoggedInNav, LoggedOutNav)
+function NonCollapsableNav() {
+
+  return (
+    <React.Fragment>
+      <WithAuthentication>
+        <LoggedInNav />
+      </WithAuthentication>
+     <WithoutAuthentication>
+       <LoggedOutNav />
+     </WithoutAuthentication>
+   </React.Fragment>
+  )
+}
+
+
+
+// const NonCollapsableNav = withAuthentication(LoggedInNav, LoggedOutNav)
+
+// const LogoutLink = withoutAuthentication(function() {return ( <Nav.Link href="/logout">Logout</Nav.Link> )})
 
 function CollapsableNav(props) {
   return (
@@ -63,6 +80,9 @@ function CollapsableNav(props) {
             <NavDropdown.Divider />
           </NavDropdown>
           <Nav.Link href="/about">About</Nav.Link>
+          <WithAuthentication>
+            <Nav.Link href="/logout">Logout</Nav.Link>
+          </WithAuthentication>
         </Nav>
       </Navbar.Collapse>
     </React.Fragment>
