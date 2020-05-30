@@ -37,7 +37,7 @@ function GameOverview (props) {
   }
 
   return (
-    <div className="jumbotron jumbotron-fluid">
+    <div className="jumbotron jumbotron-fluid mt-1">
       <div className="container text-center">
         <h1 className="display-4">{props.gameTitle}</h1>
         <p className="lead">{props.gameShortDesc}</p>

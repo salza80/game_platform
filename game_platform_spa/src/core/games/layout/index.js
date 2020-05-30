@@ -8,7 +8,7 @@ import ScoresList from "../../../components/scoresList"
 function GameScores (props) {
   return (
     <div>
-      <div className="jumbotron">
+      <div className="jumbotron mt-1">
         <ScoresList gameCode={props.gameDetails.gameCode} gameOptions={props.gameOptions}> </ScoresList>
       </div>
     </div>

@@ -2,16 +2,8 @@
 // $body-bg: #000;
 // Import Bootstrap and its default variables
 
-// Sketchy 4.5.0
-// Bootswatch
-
-//
-// Color system
-//
-
 @import '_variables.scss';
-@import '_bootswatch.scss';
-
-
 
 @import '~bootstrap/scss/bootstrap.scss';
+
+@import '_bootswatch.scss';

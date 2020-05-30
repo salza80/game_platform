@@ -11,7 +11,6 @@ import { WithoutAuthentication, WithAuthentication } from "../components/userAdm
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { PrivateRoute } from "../components/"
 import logo from '../logo.png'
-import './layout.scss'
 import {
   Switch,
   Route,
