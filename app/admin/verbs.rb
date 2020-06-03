@@ -14,5 +14,16 @@ ActiveAdmin.register Verb do
     permitted << :other if params[:action] == 'create' && current_user.admin?
     permitted
   end
+
+  form do |f|
+    f.inputs do
+      f.input :infinitive, input_html: { disabled: true }
+      f.input :english
+      f.input :auxiliary_verb
+      f.input :regular
+      f.input :language_level
+    end
+    f.actions
+  end 
   
 end

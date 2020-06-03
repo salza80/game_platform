@@ -10,9 +10,19 @@ ActiveAdmin.register User do
   # or
   #
   permit_params do
-    permitted = [:email, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :display_name]
+    permitted = [:email, :confirmed_at, :unconfirmed_email, :display_name]
     permitted << :other if params[:action] == 'create' && current_user.admin?
     permitted
   end
-  
+
+
+  form do |f|
+    f.inputs do
+      f.input :email
+      f.input :confirmed_at
+      f.input :unconfirmed_email
+      f.input :display_name
+    end
+    f.actions
+  end 
 end
