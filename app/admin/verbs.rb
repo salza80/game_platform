@@ -9,10 +9,10 @@ ActiveAdmin.register Verb do
   #
   # or
   #
-  # permit_params do
-  #   permitted = [:infinitive, :english, :auxiliary_verb, :regular, :language_level_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  permit_params do
+    permitted = [:english, :auxiliary_verb, :regular, :language_level_id]
+    permitted << :other if params[:action] == 'create' && current_user.admin?
+    permitted
+  end
   
 end

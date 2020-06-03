@@ -9,10 +9,10 @@ ActiveAdmin.register VerbForm do
   #
   # or
   #
-  # permit_params do
-  #   permitted = [:form, :subject, :word, :verb_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  permit_params do
+    permitted = [:word]
+    permitted << :other if params[:action] == 'create' && current_user.admin?
+    permitted
+  end
   
 end

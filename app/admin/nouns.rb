@@ -5,14 +5,14 @@ ActiveAdmin.register Noun do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :word, :english, :gender_id, :language_level_id
+  # permit_params :word, :english, :gender_id, :language_level_id
   #
   # or
   #
-  # permit_params do
-  #   permitted = [:word, :english, :gender_id, :language_levels_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  permit_params do
+    permitted = [:word, :english, :gender_id, :language_levels_id]
+    permitted << :other if params[:action] == 'create' && current_user.admin?
+    permitted
+  end
   
 end
