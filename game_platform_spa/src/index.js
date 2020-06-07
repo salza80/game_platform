@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import './index.css';
 import './custom-bootstrap.scss';
 import App from './App';
@@ -49,16 +49,25 @@ client.defaultOptions = {
     },
   }
 
-ReactDOM.render(
-  <React.StrictMode>
-  	<ApolloProvider client={client}>
-	  	<Router>
-	    	<App />
-	    </Router>
-	</ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+const rootElement = document.getElementById("root");
+
+const AppConf = () => (
+   <React.StrictMode>
+    <ApolloProvider client={client}>
+      <Router>
+        <App />
+      </Router>
+  </ApolloProvider>
+  </React.StrictMode>
 );
+
+if (rootElement.hasChildNodes()) {
+  console.log('App: Hydrate');
+  hydrate(<AppConf />, rootElement);
+} else {
+  console.log('App: Render');
+  render(<AppConf />, rootElement);
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
