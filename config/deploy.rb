@@ -42,6 +42,25 @@ set :rvm_custom_path, "/usr/share/rvm"
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
+
+before "git:wrapper", "predeploy:spa_build"
+
+namespace :predeploy do
+  desc 'prepare spa build with static react-snap locally'
+  task :spa_build do
+    run_locally do 
+      execute("rails s -p 3001 -d")
+      execute("cd game_platform_spa && npm install && SKIP_PREFLIGHT_CHECK=true npm run build")
+      execute("cp public/spa/index.html public")
+      execute("cp -R game_platform_spa/build/* public/spa")
+      execute("cd game_platform_spa && npm run snap")
+      execute("rm -rf public/spa/*")
+      execute("mv public/index.html public/spa")
+      execute("kill -9 $(cat tmp/pids/server.pid)")
+    end
+  end
+end
+
 append :linked_files, "config/master.key"
 
 namespace :deploy do
@@ -62,23 +81,35 @@ namespace :deploy do
   end
 end
 
-after "deploy:assets:precompile", "deploy:spa_build"
+after "deploy:assets:precompile", "deploy:spa_build_copy"
 namespace :deploy do
-  desc 'Run rake yarn:install'
-  task :spa_build do
-    on roles(:web) do
+  desc 'copy spa build from local to production server'
+  task :spa_build_copy do
+    on roles(:app), in: :sequence, wait: 10 do
+      upload! 'game_platform_spa/build', "#{release_path}/public/spa", recursive: true
       within release_path do
-        execute("cd #{release_path}/game_platform_spa && npm install && SKIP_PREFLIGHT_CHECK=true npm run build")
-        execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
-        execute("cd #{release_path}/game_platform_spa && npm run snap")
-        execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
+        execute("cd #{release_path} && mv public/spa/build/* public/spa")
         execute("rm -rf #{release_path}/game_platform_spa/*")
       end
     end
   end
 end
 
-
+# after "deploy:assets:precompile", "deploy:spa_build"
+# namespace :deploy do
+#   desc 'build spa on production server'
+#   task :spa_build do
+#     on roles(:web) do
+#       within release_path do
+#         execute("cd #{release_path}/game_platform_spa && npm install && SKIP_PREFLIGHT_CHECK=true npm run build")
+#         execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
+#         execute("cd #{release_path}/game_platform_spa && npm run snap")
+#         execute("cd #{release_path} && cp -R game_platform_spa/build/* public/spa")
+#         execute("rm -rf #{release_path}/game_platform_spa/*")
+#       end
+#     end
+#   end
+# end
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 append :linked_files, 'config/database.yml', 'config/credentials.yml.enc'

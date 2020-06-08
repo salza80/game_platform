@@ -30,7 +30,7 @@
     "snap": "react-snap"
   },
   "reactSnap": {
-    "port": 3000,
+    "port": 3001,
     "externalServer": true
   },
   "eslintConfig": {
