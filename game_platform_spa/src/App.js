@@ -4,6 +4,11 @@ import { Helmet } from 'react-helmet';
 import Layout from './core/layout'
 import './App.css';
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-173214512-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
+
 function App() {
   return (
     <React.Fragment>

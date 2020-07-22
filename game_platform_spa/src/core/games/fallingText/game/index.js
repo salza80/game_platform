@@ -6,6 +6,7 @@ import CreateScorePopup from "../../../../components/createScorePopup"
 import WordListPopup from "../../../../components/wordListPopup"
 import OptionSelector from "../../../../components/optionSelector"
 import { LEVELS, TOPICS, INPUT_TYPES, LEVELS_COMING_SOON } from "../constants"
+import ReactGA from 'react-ga';
 
 const GAME_DATA_QUERY = gql`
   query FallingTextGame($topicCode: String!, $levelCode: String! ) {
@@ -97,7 +98,13 @@ function Game(props) {
   }
 
 
-  const handlePlayClick = () => setShowGame(true);
+  const handlePlayClick = () => { 
+    ReactGA.event({
+      category: 'falling-text',
+      action: 'Play'
+    });
+    setShowGame(true)
+  }
 
   return (
     <React.Fragment>

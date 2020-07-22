@@ -6,6 +6,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ME } from '../queries.js'
 import { parseFormValidationErrors } from '../../helpers'
 import FormErrors from '../../formErrors'
+import ReactGA from 'react-ga';
 
 import {
   useHistory
@@ -27,6 +28,10 @@ export default function SignUpForm({redirectAfterSignup = true, ...props}) {
   const onSignUpCompeted = (data) => {
     if (data.signUp) {
       localStorage.setItem('token', data.signUp.token)
+      ReactGA.event({
+        category: 'User',
+        action: 'Signed Up'
+      });
       refetch().then(() => {
         if (redirectAfterSignup){history.push("/")}
       }).catch (e => {

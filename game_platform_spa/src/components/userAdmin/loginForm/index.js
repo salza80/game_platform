@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap'
+import ReactGA from 'react-ga';
 
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -28,6 +29,10 @@ export default function LoginForm({redirectAfterLogin = true, ...props}) {
   const onLoginCompeted = (data) => {
     if (data.login) {
       localStorage.setItem('token', data.login.token)
+      ReactGA.event({
+        category: 'User',
+        action: 'Logged In'
+      });
       refetch().then(() => {
           if (redirectAfterLogin){history.push("/")}
         }).catch (e => {
