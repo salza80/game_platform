@@ -10,6 +10,8 @@ import FormErrors from '../../formErrors'
 const UPDATE_USER = gql`
   mutation updateUser($displayName: String!) {
     updateUser(displayName: $displayName) {
+      id
+      email
       displayName
     }
   }
@@ -17,7 +19,7 @@ const UPDATE_USER = gql`
 
 export default function UpdateUserForm(props) {
   const [validated, setValidated] = useState(false);
-  const [updateUser,  { error: updateError, loading: submitting, data: updateResult }] = useMutation(UPDATE_USER, {refetchQueries: ["me"]});
+  const [updateUser,  { error: updateError, loading: submitting, data: updateResult }] = useMutation(UPDATE_USER);
   const { loading, error, data } = useQuery(ME);
   let validationErrors = parseFormValidationErrors(updateError)
 

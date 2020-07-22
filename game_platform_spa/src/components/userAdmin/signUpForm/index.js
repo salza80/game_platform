@@ -15,7 +15,6 @@ const SIGN_UP = gql`
   mutation signUp($email: String!, $displayName: String!, $password: String!, $passwordConfirmation: String!) {
     signUp(attributes: { email: $email, displayName: $displayName, password: $password, passwordConfirmation: $passwordConfirmation }) {
       email
-      token
     }
   }
 `;

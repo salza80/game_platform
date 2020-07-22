@@ -13,7 +13,7 @@ function App() {
           <meta property="og:url" content="https://deutsch.games" />
           <meta property="og:title" content="Deutsch Games!" />
           <meta property="og:description" content="Learn German with Games!" />
-          <meda property="og:image" content="https://deutsch.games/spa/logo512.png" />
+          <meta property="og:image" content="https://deutsch.games/spa/logo512.png" />
         </Helmet>
       <Layout />
     </React.Fragment>
