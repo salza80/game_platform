@@ -43,7 +43,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
   # Use Puma as the app server
-  gem 'puma', '~> 4.3.5'
+  gem 'puma', '~> 4.3.11'
 end
 
 group :development do
